@@ -6,6 +6,10 @@
 #include <cmath>
 #include <cstdio>
 
+#ifndef M_PI  // not in standard C++ (MinGW with -std=c++17 leaves it out)
+#define M_PI 3.14159265358979323846
+#endif
+
 #include "CurveGenerator.h"
 #include "FamilyAnalyzer.h"
 #include "Parser.h"

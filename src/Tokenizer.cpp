@@ -4,6 +4,13 @@
 #include <cctype>
 #include <cmath>
 
+#ifndef M_PI  // not in standard C++ (MinGW with -std=c++17 leaves them out)
+#define M_PI 3.14159265358979323846
+#endif
+#ifndef M_E
+#define M_E 2.71828182845904523536
+#endif
+
 #include "Expr.h"
 
 namespace ot {
