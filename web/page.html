@@ -9,34 +9,35 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232d1b36'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='%2353c2b6' stroke-width='2.5'/%3E%3Cpath d='M4 28L28 4' stroke='%23e0975f' stroke-width='2.5'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap"></noscript>
 <style>
 /* ---------- Theme ---------- */
 :root{
   --plum:#2d1b36; --plum-2:#4a3356;
   --bg:#fbfaf8; --surface:#ffffff; --sunk:#f4f1ee; --ink:#1d1720; --muted:#5f5566; --line:#e6e1e6;
   --head-bg:#ffffff; --head-ink:#2d1b36; --head-line:#e6e1e6;
-  --teal:#1f8a80; --copper:#c4703a; --accent:#2d1b36;
+  --teal:#1f8a80; --copper:#c4703a; --accent:#2d1b36; --teal-ink:#17706a;
   --ok:#1f7a4d; --ok-bg:#e5f4ec; --bad:#b3261e; --bad-bg:#fbe9e7;
-  --grid-minor:#eee9ee; --grid-major:#dcd4dc; --axis:#3b3040; --label:#6a5f70; --plot-bg:#ffffff;
+  --grid-minor:#eee9ee; --grid-major:#dcd4dc; --axis:#3b3040; --label:#6a5f70; --plot-bg:#ffffff; --scrim:rgba(20,10,25,.45);
   --serif:"Source Serif 4",Cambria,Georgia,"Times New Roman",serif;
   --sans:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",Arial,sans-serif;
   --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
   color-scheme:light;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --head-bg:#1d1424; --head-ink:#f4eef6; --head-line:#352c3b;
-  --bg:#141017; --surface:#1d1822; --sunk:#241e2a; --ink:#f1ecf3; --muted:#b3a8b8; --line:#352c3b;
-  --teal:#53c2b6; --copper:#e0975f; --accent:#d9c7e6;
-  --ok:#6fd39f; --ok-bg:#16301f; --bad:#ff8a80; --bad-bg:#3a1a19;
-  --grid-minor:#231d28; --grid-major:#352c3b; --axis:#cfc3d6; --label:#a89cae; --plot-bg:#19141d;
+  --head-bg:#1b1f26; --head-ink:#e6e9ef; --head-line:#2c323c;
+  --bg:#15181d; --surface:#1d2128; --sunk:#252a33; --ink:#e6e9ef; --muted:#a4adbb; --line:#2c323c;
+  --teal:#4fd1c5; --copper:#f0a868; --accent:#8a96ff; --plum:#3d4ab8; --plum-2:#4f5dd6; --teal-ink:#4fd1c5;
+  --ok:#4fcf95; --ok-bg:#163026; --bad:#ff7a78; --bad-bg:#3a1c1e;
+  --grid-minor:#1f242c; --grid-major:#2c323c; --axis:#c9d1dc; --label:#9aa3b2; --plot-bg:#171a20; --scrim:rgba(8,10,14,.6);
   color-scheme:dark}}
 :root[data-theme="dark"]{
-  --head-bg:#1d1424; --head-ink:#f4eef6; --head-line:#352c3b;
-  --bg:#141017; --surface:#1d1822; --sunk:#241e2a; --ink:#f1ecf3; --muted:#b3a8b8; --line:#352c3b;
-  --teal:#53c2b6; --copper:#e0975f; --accent:#d9c7e6;
-  --ok:#6fd39f; --ok-bg:#16301f; --bad:#ff8a80; --bad-bg:#3a1a19;
-  --grid-minor:#231d28; --grid-major:#352c3b; --axis:#cfc3d6; --label:#a89cae; --plot-bg:#19141d;
+  --head-bg:#1b1f26; --head-ink:#e6e9ef; --head-line:#2c323c;
+  --bg:#15181d; --surface:#1d2128; --sunk:#252a33; --ink:#e6e9ef; --muted:#a4adbb; --line:#2c323c;
+  --teal:#4fd1c5; --copper:#f0a868; --accent:#8a96ff; --plum:#3d4ab8; --plum-2:#4f5dd6; --teal-ink:#4fd1c5;
+  --ok:#4fcf95; --ok-bg:#163026; --bad:#ff7a78; --bad-bg:#3a1c1e;
+  --grid-minor:#1f242c; --grid-major:#2c323c; --axis:#c9d1dc; --label:#9aa3b2; --plot-bg:#171a20; --scrim:rgba(8,10,14,.6);
   color-scheme:dark}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -84,7 +85,6 @@ canvas.drag{cursor:grabbing}
 .steps ol{margin:0;padding:0;list-style:none;counter-reset:s}
 .steps li{counter-increment:s;display:grid;grid-template-columns:28px minmax(0,1fr);gap:2px 10px;padding:10px 0;border-top:1px solid var(--line)}
 .steps li::before{content:counter(s);grid-row:span 2;width:24px;height:24px;border-radius:50%;background:var(--plum);color:#fff;font:600 12px/24px var(--sans);text-align:center}
-:root[data-theme="dark"] .steps li::before{background:var(--plum-2)}
 .steps .t{font-weight:600;font-size:14px}
 .steps .m{font:16px/1.5 var(--serif);overflow-wrap:anywhere}
 sup{font-size:.72em;line-height:0}
@@ -99,7 +99,8 @@ sup{font-size:.72em;line-height:0}
 input[type=text],input[type=number]{width:100%;border:1px solid var(--line);background:var(--sunk);border-radius:9px;padding:9px 11px;font-size:16px;min-width:0}
 input.eq{font-family:var(--serif);font-size:17px}
 .seg{display:grid;grid-template-columns:1fr 1fr;background:var(--sunk);border:1px solid var(--line);border-radius:10px;padding:3px;gap:3px}
-.seg label{text-align:center;padding:7px 4px;border-radius:7px;cursor:pointer;font-size:13px;line-height:1.25}
+.seg label{position:relative;text-align:center;padding:7px 4px;border-radius:7px;cursor:pointer;font-size:13px;line-height:1.25}
+.seg label:has(input:focus-visible){outline:2px solid var(--teal);outline-offset:1px}
 .seg input{position:absolute;opacity:0;pointer-events:none}
 .seg label:has(input:checked){background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.12);font-weight:600}
 .seg label.on{background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.12);font-weight:600}
@@ -110,7 +111,7 @@ input.eq{font-family:var(--serif);font-size:17px}
 input[type=color]{width:38px;height:30px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:2px;cursor:pointer}
 .examples{display:flex;flex-wrap:wrap;gap:6px}
 .ex{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 11px;font:14px var(--serif);cursor:pointer}
-.ex:hover{border-color:var(--teal);color:var(--teal)}
+.ex:hover{border-color:var(--teal);color:var(--teal-ink)}
 .sim{width:100%;margin-top:6px;border:0;border-radius:11px;padding:13px;background:var(--plum);color:#fff;font-weight:600;font-size:16px;cursor:pointer;letter-spacing:.01em}
 .sim:hover{background:var(--plum-2)}
 .sim:disabled{opacity:.55;cursor:wait}
@@ -121,10 +122,10 @@ input[type=color]{width:38px;height:30px;border:1px solid var(--line);border-rad
 /* ---------- Footer ---------- */
 .foot{max-width:1500px;margin:0 auto;padding:8px 20px 28px}
 .foot .about{font-size:12.5px;color:var(--muted);max-width:90ch}
-.foot .about a{color:var(--teal);font-weight:600}
+.foot .about a{color:var(--teal-ink);font-weight:600;display:inline-block;padding:7px 0}
 
 /* ---------- Alert dialog ---------- */
-.modal{position:fixed;inset:0;background:rgba(20,10,25,.45);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}
+.modal{position:fixed;inset:0;background:var(--scrim);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}
 .modal[hidden]{display:none}
 .dlg{background:var(--surface);border-radius:14px;max-width:460px;width:100%;padding:20px 20px 16px;border-top:5px solid var(--bad);box-shadow:0 20px 60px rgba(0,0,0,.3)}
 .dlg h3{margin:0 0 8px;font:600 18px var(--serif);color:var(--bad)}
@@ -299,8 +300,9 @@ input[type=color]{width:38px;height:30px;border:1px solid var(--line);border-rad
   var engine = null;          // the WebAssembly module
   var data = null;            // last result from C++
   var lastInputs = null;      // the inputs of the last successful simulation
-  var view = null, homeView = null;
-  var progress = 1, animStart = 0, ANIM_MS = 2200;
+  var view = null;
+  var REDUCE = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var progress = 1, animStart = 0, ANIM_MS = REDUCE ? 350 : 2200;  // reduced motion: a short reveal
 
   var EXAMPLES = [
     { label: "y = c x²", type: "explicit", eq: "y = c x^2", c: "-3 to 3", n: 7 },
@@ -321,7 +323,7 @@ input[type=color]{width:38px;height:30px;border:1px solid var(--line);border-rad
   function readForm() {
     return { type: typeValue(), eq: $("eq").value, param: $("param").value, c: $("cvals").value,
              n: $("ncurves").value, xmin: $("xmin").value, xmax: $("xmax").value,
-             ymin: $("ymin").value, ymax: $("ymax").value, traj: $("ntraj").value };
+             ymin: $("ymin").value, ymax: $("ymax").value, traj: $("ntraj").value.trim() || "12" };  // optional: empty means the default 12
   }
   EXAMPLES.forEach(function (ex) {
     var b = document.createElement("button");
@@ -365,7 +367,11 @@ input[type=color]{width:38px;height:30px;border:1px solid var(--line);border-rad
   }
   function closeAlert() { $("modal").hidden = true; $("simulate").focus(); }
   $("mOk").addEventListener("click", closeAlert);
-  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("modal").hidden) closeAlert(); });
+  document.addEventListener("keydown", function (e) {
+    if ($("modal").hidden) return;
+    if (e.key === "Escape") closeAlert();
+    else if (e.key === "Tab") { e.preventDefault(); $("mOk").focus(); }   // OK is the dialog's only control
+  });
   function status(kind, text) { var el = $("status"); el.className = "status " + kind; el.textContent = text; }
 
   // ---------- Simulate ----------
@@ -378,9 +384,8 @@ input[type=color]{width:38px;height:30px;border:1px solid var(--line);border-rad
     status("ok", "The information is valid. Drawing the simulation…");
     lastInputs = inp;
     if (window.innerWidth <= 1020 && e.isTrusted)   // phones/tablets: bring the graph into view
-      $("plot").scrollIntoView({ behavior: "smooth", block: "center" });
+      $("plot").scrollIntoView({ behavior: REDUCE ? "auto" : "smooth", block: "center" });
     setResult(r, true);
-    homeView = r.view.slice();
   });
 
   function setResult(r, animate) {
@@ -388,6 +393,7 @@ input[type=color]{width:38px;height:30px;border:1px solid var(--line);border-rad
     view = r.view.slice();
     pretty($("lgFamEq"), r.steps[0] ? r.steps[0].math : "");
     pretty($("lgOrtEq"), r.closedForm ? r.closedForm.split("⇒").pop().replace(/\(k = .*\)/, "").trim() : "(RK4, numerical)");
+    cv.setAttribute("aria-label", "Graph of the family " + $("lgFamEq").textContent + " and its orthogonal trajectories " + $("lgOrtEq").textContent);
     var ol = $("steps"); ol.innerHTML = "";
     r.steps.forEach(function (st) {
       var li = document.createElement("li");
@@ -415,6 +421,7 @@ input[type=color]{width:38px;height:30px;border:1px solid var(--line);border-rad
     progress = Math.min(1, (now - animStart) / ANIM_MS);
     draw();
     if (progress < 1) requestAnimationFrame(tick);
+    else if ($("status").classList.contains("ok")) status("ok", "The information is valid.");
   }
   $("replay").addEventListener("click", function () {
     if (!data) return; progress = 0; animStart = performance.now(); requestAnimationFrame(tick);
@@ -469,11 +476,11 @@ input[type=color]{width:38px;height:30px;border:1px solid var(--line);border-rad
     ctx.textAlign = "center"; ctx.textBaseline = "top";
     var ly = Math.min(Math.max(ay + 5, 4), H - 18);
     for (var x = Math.ceil(view[0] / step) * step; x <= view[1]; x += step)
-      if (Math.abs(x) > step * 1e-6) ctx.fillText(fmt(x, step), X(x), ly);
+      if (Math.abs(x) > step * 1e-6 && X(x) > 12 && X(x) < W - 12) ctx.fillText(fmt(x, step), X(x), ly);  // not cut off at the sides
     ctx.textAlign = "right"; ctx.textBaseline = "middle";
     var lx = Math.min(Math.max(ax - 6, 30), W - 4);
     for (var y = Math.ceil(view[2] / step) * step; y <= view[3]; y += step)
-      if (Math.abs(y) > step * 1e-6) ctx.fillText(fmt(y, step), lx, Y(y));
+      if (Math.abs(y) > step * 1e-6 && Y(y) > 26 && Y(y) < H - 10) ctx.fillText(fmt(y, step), lx, Y(y));  // clear of the edges and the "y"
     ctx.textAlign = "right"; ctx.textBaseline = "top";
     if (X(0) >= 0 && X(0) <= W && Y(0) >= 0 && Y(0) <= H) ctx.fillText("0", X(0) - 5, Y(0) + 5);
     // axis names
@@ -565,7 +572,7 @@ input[type=color]{width:38px;height:30px;border:1px solid var(--line);border-rad
   $("reset").addEventListener("click", function () {
     if (!lastInputs) return;
     var r = callCpp(lastInputs, null);
-    if (r.ok) { setResult(r, false); homeView = r.view.slice(); }
+    if (r.ok) setResult(r, false);
   });
   var lastW = 0, lastH = 0;
   window.addEventListener("resize", function () {
@@ -587,6 +594,7 @@ input[type=color]{width:38px;height:30px;border:1px solid var(--line);border-rad
   function applyTheme(t) {
     if (t) document.documentElement.setAttribute("data-theme", t);
     $("themeLabel").textContent = isDark() ? "Dark" : "Bright";
+    document.querySelector('meta[name="theme-color"]').setAttribute("content", css("--head-bg"));  // the phone's browser bar
     if (!colorsTouched) {           // follow the theme's own curve colours
       $("colFam").value = css("--teal"); $("colOrt").value = css("--copper");
       $("lgFam").style.background = $("colFam").value; $("lgOrt").style.background = $("colOrt").value;
@@ -601,6 +609,9 @@ input[type=color]{width:38px;height:30px;border:1px solid var(--line);border-rad
   });
   ["colFam", "colOrt"].forEach(function (id) { $(id).addEventListener("input", function () { colorsTouched = true; }); });
   applyTheme(null);
+  if (window.matchMedia) matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () {
+    if (!document.documentElement.getAttribute("data-theme")) applyTheme(null);
+  });
 
   // ---------- start: load the C++ engine ----------
   draw();
