@@ -1,8 +1,8 @@
-# How to use Orthogonal - IOI
+# How to use INFINITE-APPROXIMATION
 
 A step-by-step guide. No coding needed for steps 1–4.
 
-**Live site:** https://ali-ioi.github.io/ORTHOGONAL-IOI/
+**Live site:** https://ali-ioi.github.io/INFINITE-APPROXIMATION/
 
 ---
 

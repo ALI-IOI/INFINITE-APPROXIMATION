@@ -1,4 +1,4 @@
-# Orthogonal - IOI
+# INFINITE-APPROXIMATION
 
 **Type a family of curves and see its orthogonal trajectories.**
 
@@ -18,7 +18,7 @@ WebAssembly alone, so this small amount of JavaScript is the minimum needed.
 
 ---
 
-**Live site:** https://ali-ioi.github.io/ORTHOGONAL-IOI/
+**Live site:** https://ali-ioi.github.io/INFINITE-APPROXIMATION/
 **New here? Read [INSTRUCTIONS.md](INSTRUCTIONS.md).**
 
 ## Folder structure
@@ -48,7 +48,7 @@ tools/make_single_file.py  build helper that puts the JavaScript and WebAssembly
 
 ## Use it
 
-- **Online:** https://ali-ioi.github.io/ORTHOGONAL-IOI/
+- **Online:** https://ali-ioi.github.io/INFINITE-APPROXIMATION/
 - **Offline:** **Code → Download ZIP**, unzip, double-click `index.html`. No internet needed
   (only the web fonts fall back to the system fonts).
 
