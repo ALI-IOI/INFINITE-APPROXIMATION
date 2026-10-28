@@ -19,7 +19,7 @@
   --head-bg:#ffffff; --head-ink:#2d1b36; --head-line:#e6e1e6;
   --teal:#1f8a80; --copper:#c4703a; --accent:#2d1b36; --teal-ink:#17706a;
   --ok:#1f7a4d; --ok-bg:#e5f4ec; --bad:#b3261e; --bad-bg:#fbe9e7;
-  --grid-minor:#eee9ee; --grid-major:#dcd4dc; --axis:#3b3040; --label:#6a5f70; --plot-bg:#ffffff; --scrim:rgba(20,10,25,.45);
+  --grid-minor:#d4d4d4; --grid-major:#000000; --axis:#000000; --label:#000000; --plot-bg:#ffffff; --scrim:rgba(20,10,25,.45);
   --serif:"Source Serif 4",Cambria,Georgia,"Times New Roman",serif;
   --sans:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",Arial,sans-serif;
   --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
@@ -507,7 +507,7 @@ var createOrthoModule=(()=>{var _scriptName=globalThis.document?.currentScript?.
       ctx.stroke();
     }
     curves(data.family, pf, $("colFam").value, 2.2);
-    curves(data.ortho, po, $("colOrt").value, 2.2);
+    curves(data.ortho, po, $("colOrt").value, 3.4);   // a bit thicker than the family
   }
   $("colFam").addEventListener("input", function () { $("lgFam").style.background = this.value; requestDraw(); });
   $("colOrt").addEventListener("input", function () { $("lgOrt").style.background = this.value; requestDraw(); });
