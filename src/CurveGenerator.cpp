@@ -174,30 +174,85 @@ std::vector<Polyline> CurveGenerator::trajectories(const std::vector<Polyline>& 
     std::unordered_map<long long, std::vector<std::pair<double, double>>> grid;
     auto key = [&](long long gx, long long gy) { return gx * 1000003LL + gy; };
     auto cell = [&](double v, double lo) { return static_cast<long long>(std::floor((v - lo) / sep)); };
-    auto tooClose = [&](double x, double y) {
+    auto tooClose = [&](double x, double y, double d) {  // d <= sep
         long long gx = cell(x, area_.xmin), gy = cell(y, area_.ymin);
         for (long long a = gx - 1; a <= gx + 1; ++a)
             for (long long b = gy - 1; b <= gy + 1; ++b) {
                 auto it = grid.find(key(a, b));
                 if (it == grid.end()) continue;
                 for (auto& q : it->second)
-                    if (std::hypot(q.first - x, q.second - y) < sep) return true;
+                    if (std::hypot(q.first - x, q.second - y) < d) return true;
             }
         return false;
     };
 
+    // A closed trajectory (circle, ellipse, ...) should be seen whole, not cut
+    // by the edge of the view.
+    Box inner = view_.expanded(-0.02);
+    auto fitsInView = [&](const Polyline& p) {
+        for (size_t i = 0; i < p.size(); ++i)
+            if (!inner.contains(p.x(i), p.y(i))) return false;
+        return true;
+    };
+
     RK4Tracer tracer(fa_, area_, h_);
     std::vector<Polyline> out;
-    for (const Seed& s : seeds) {
-        if (static_cast<int>(out.size()) >= count) break;
-        if (tooClose(s.x, s.y)) continue;
+    bool allowCut = false;
+    auto tryAdd = [&](const Seed& s, double d) {
+        if (!view_.contains(s.x, s.y) || tooClose(s.x, s.y, d)) return false;
         Polyline p = tracer.trace(s.x, s.y, s.c);
-        if (p.size() < 5) continue;
+        if (p.size() < 5 || (p.closed && !allowCut && !fitsInView(p))) return false;
         for (size_t i = 0; i < p.size(); ++i)
             grid[key(cell(p.x(i), area_.xmin), cell(p.y(i), area_.ymin))].push_back({p.x(i), p.y(i)});
         out.push_back(std::move(p));
+        return true;
+    };
+    std::vector<std::array<double, 4>> mirrors = symmetries();
+    for (int pass = 0; pass < 2 && out.empty(); ++pass) {
+        allowCut = pass == 1;  // second pass only if nothing fitted (e.g. zoomed in on one big ellipse)
+        for (const Seed& s : seeds) {
+            if (static_cast<int>(out.size()) >= count) break;
+            if (!tryAdd(s, sep)) continue;
+            // When the trajectories are symmetric, draw the mirror images too,
+            // so the picture is as symmetric as the mathematics.  A mirror image
+            // is skipped only if it lands on a trajectory already drawn (for
+            // example a curve that is its own mirror image).
+            for (auto& m : mirrors) tryAdd({m[0] * s.x + m[1] * s.y, m[2] * s.x + m[3] * s.y, s.c}, 4 * h_);
+        }
     }
     return out;
+}
+
+// Which mirror images (and quarter turns) map the orthogonal trajectories onto
+// themselves?  Tested on sample points: the direction at the mapped point must
+// be the mapped direction.  A map (a, b, c, d) sends (x, y) to (ax + by, cx + dy).
+std::vector<std::array<double, 4>> CurveGenerator::symmetries() const {
+    const std::array<std::array<double, 4>, 7> candidates{{
+        {-1, 0, 0, 1}, {1, 0, 0, -1}, {-1, 0, 0, -1},  // mirror in the y-axis, in the x-axis, through the origin
+        {0, 1, 1, 0}, {0, -1, -1, 0},                   // mirror in y = x, in y = -x
+        {0, -1, 1, 0}, {0, 1, -1, 0}}};                 // quarter turns
+    std::vector<std::array<double, 4>> found;
+    // the view must be centred on the origin, or the mapped seeds fall outside it
+    double tol = 0.02 * std::max(view_.width(), view_.height());
+    bool centredX = std::fabs(view_.xmin + view_.xmax) <= tol, centredY = std::fabs(view_.ymin + view_.ymax) <= tol;
+    for (auto& m : candidates) {
+        bool flipsX = m[0] < 0 || m[1] != 0, flipsY = m[3] < 0 || m[2] != 0;
+        if ((flipsX && !centredX) || (flipsY && !centredY)) continue;
+        int tested = 0;
+        bool same = true;
+        for (int k = 1; k <= 60 && same; ++k) {
+            double x = view_.xmin + halton(k, 2) * view_.width(), y = view_.ymin + halton(k, 3) * view_.height();
+            double c1 = 1, c2 = 1, dx1, dy1, dx2, dy2;  // c: starting guess when c is found numerically
+            if (!fa_.orthoDirection(x, y, c1, dx1, dy1) ||
+                !fa_.orthoDirection(m[0] * x + m[1] * y, m[2] * x + m[3] * y, c2, dx2, dy2))
+                continue;
+            ++tested;
+            double mx = m[0] * dx1 + m[1] * dy1, my = m[2] * dx1 + m[3] * dy1;
+            same = std::fabs(mx * dy2 - my * dx2) < 1e-6;  // parallel (either way round)
+        }
+        if (same && tested >= 20) found.push_back(m);
+    }
+    return found;
 }
 
 // ----------------------------------------------------------------------

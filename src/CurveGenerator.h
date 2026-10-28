@@ -6,6 +6,7 @@
 //  * orthogonality check: finds where the two families cross and measures
 //    the angle between the tangents (cos θ should be ≈ 0).
 #pragma once
+#include <array>
 #include <vector>
 
 #include "FamilyAnalyzer.h"
@@ -41,6 +42,7 @@ private:
 
     void explicitCurve(double c, std::vector<Polyline>& out) const;
     void marchingSquares(double c, std::vector<Polyline>& out) const;
+    std::vector<std::array<double, 4>> symmetries() const;
 };
 
 }  // namespace ot

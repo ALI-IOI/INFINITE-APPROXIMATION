@@ -8,7 +8,8 @@ You type a one-parameter family of curves, such as `y = c x^2`, and the tool:
 2. differentiates the family, eliminates `c` and gets the family's differential equation,
 3. replaces dy/dx by −1/(dy/dx) to get the orthogonal differential equation,
 4. solves it in closed form when the equation is separable (and checks the answer), or numerically with RK4,
-5. draws both families on a Desmos-style graph that you can zoom and pan, with an animation,
+5. draws both families on a Desmos-style graph that you can zoom and pan, with an animation
+   (symmetric families get symmetric trajectories, and closed trajectories such as ellipses are drawn whole),
 6. measures the angle at every crossing to confirm the curves are perpendicular.
 
 **All the mathematics is C++** (folder `src/`), compiled to WebAssembly. JavaScript in
@@ -89,12 +90,12 @@ site is live at `https://<username>.github.io/<repository>/`.
 
 | Family | Closed form found by the program | Crossings checked | Largest abs(cos θ) |
 |---|---|---|---|
-| y = c x² | x² + 2y² = k | 56 | 0.025 |
-| x² + y² = c | ln‖y‖ − ln‖x‖ = K ⇒ y = kx | 119 | ≈ 0 (6e-15) |
-| xy = c | x² − y² = k | 73 | 0.0063 |
+| y = c x² | x² + 2y² = k | 44 | 0.025 |
+| x² + y² = c | ln‖y‖ − ln‖x‖ = K ⇒ y = kx | 143 | ≈ 0 (1e-15) |
+| xy = c | x² − y² = k | 84 | 0.0062 |
 | y = c eˣ | 2x + y² = k (same as y² = k − 2x) | 71 | 0.016 |
-| y = cx | x² + y² = k | 43 | 0.016 |
-| y² = 4cx | 2x² + y² = k | 48 | 0.022 |
+| y = cx | x² + y² = k | 29 | 0.016 |
+| y² = 4cx | 2x² + y² = k | 32 | 0.022 |
 | (x − c)² + y² = 1 (c is non-linear) | none, RK4 only | 24 | 0.0068 |
 
 abs(cos θ) is computed at each crossing between the RK4 trajectory (tangent measured from its
