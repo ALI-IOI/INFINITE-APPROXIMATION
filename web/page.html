@@ -72,8 +72,10 @@ button,input,select{font:inherit;color:inherit}
 .tools{display:flex;gap:6px}
 .icon-btn{border:1px solid var(--line);background:var(--surface);border-radius:9px;min-width:36px;height:36px;padding:0 10px;cursor:pointer;font-size:13px;display:inline-flex;align-items:center;justify-content:center;gap:6px}
 .icon-btn:hover{border-color:var(--muted)}
-.plot{position:relative;height:min(72vh,720px);min-height:320px;background:var(--plot-bg)}
-canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+/* the graph is a square as wide as the whole left column */
+.plot{position:relative;width:100%;aspect-ratio:1/1;background:var(--plot-bg)}
+@supports not (aspect-ratio:1/1){.plot{height:0;padding-top:100%}}
+canvas{position:absolute;top:0;left:0;display:block;width:100%;height:100%;touch-action:none;cursor:grab}
 canvas.drag{cursor:grabbing}
 .hint{position:absolute;right:10px;bottom:8px;font-size:11.5px;color:var(--label);background:var(--plot-bg);padding:2px 6px;border-radius:6px;pointer-events:none;opacity:.9}
 .loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:14px}
@@ -137,7 +139,6 @@ input[type=color]{width:38px;height:30px;border:1px solid var(--line);border-rad
 @media (max-width:1020px){
   .app{grid-template-columns:1fr}
   .panel{position:static}
-  .plot{height:min(62vh,560px)}
 }
 @media (max-width:520px){
   .top .in,.app,.foot{padding-left:16px;padding-right:16px}
@@ -145,7 +146,6 @@ input[type=color]{width:38px;height:30px;border:1px solid var(--line);border-rad
   .top .in{flex-wrap:nowrap}
   .theme-btn{padding:8px;flex:none}
   .theme-btn span{display:none}
-  .plot{height:58vh;min-height:300px}
   .hint{display:none}
 }
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
