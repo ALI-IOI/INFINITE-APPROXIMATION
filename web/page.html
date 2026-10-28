@@ -504,6 +504,20 @@ input[type=color]{width:38px;height:30px;border:1px solid var(--line);border-rad
     }
     curves(data.family, pf, $("colFam").value, 2.2);
     curves(data.ortho, po, $("colOrt").value, 3.4);   // a bit thicker than the family
+
+    // right-angle marks (small squares) at some crossings found by C++, once both families are drawn
+    var mk = data.check.marks || [];
+    if (progress < 1 || !mk.length) return;
+    var s = 11;   // side of the square in pixels
+    ctx.strokeStyle = css("--axis"); ctx.lineWidth = 1.6; ctx.lineJoin = "miter"; ctx.beginPath();
+    for (var j = 0; j + 3 < mk.length; j += 4) {
+      var px = X(mk[j]), py = Y(mk[j + 1]);
+      var ux = mk[j + 2], uy = -mk[j + 3], vx = -uy, vy = ux;   // screen y points down; v is u turned 90°
+      ctx.moveTo(px + s * ux, py + s * uy);
+      ctx.lineTo(px + s * (ux + vx), py + s * (uy + vy));
+      ctx.lineTo(px + s * vx, py + s * vy);
+    }
+    ctx.stroke();
   }
   $("colFam").addEventListener("input", function () { $("lgFam").style.background = this.value; requestDraw(); });
   $("colOrt").addEventListener("input", function () { $("lgOrt").style.background = this.value; requestDraw(); });
