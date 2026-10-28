@@ -20,6 +20,9 @@ struct OrthoCheck {
     double maxAbsCos = 0;   // worst |cos θ| (0 means exactly 90°)
     double meanAbsCos = 0;
     int skippedSingular = 0;  // crossings at points where the slope is undefined
+    // Every tested crossing, for right-angle marks on the graph:
+    // x, y and the unit tangent (ux, uy) of the family curve, four numbers each.
+    std::vector<double> marks;
 };
 
 class CurveGenerator {

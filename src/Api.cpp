@@ -126,7 +126,9 @@ std::string runSimulation(const Inputs& in) {
         out += "],\"check\":{\"crossings\":" + std::to_string(chk.crossings) +
                ",\"maxAbsCos\":" + jsonNumber(chk.maxAbsCos) + ",\"meanAbsCos\":" + jsonNumber(chk.meanAbsCos) +
                ",\"skipped\":" + std::to_string(chk.skippedSingular) +
-               ",\"minAngleDeg\":" + jsonNumber(std::acos(std::min(1.0, chk.maxAbsCos)) * 180 / M_PI) + "}";
+               ",\"minAngleDeg\":" + jsonNumber(std::acos(std::min(1.0, chk.maxAbsCos)) * 180 / M_PI) + ",\"marks\":[";
+        for (size_t i = 0; i < chk.marks.size(); ++i) out += (i ? "," : "") + jsonNumber(chk.marks[i]);
+        out += "]}";
         out += ",\"view\":[" + jsonNumber(s.view.xmin) + "," + jsonNumber(s.view.xmax) + "," + jsonNumber(s.view.ymin) +
                "," + jsonNumber(s.view.ymax) + "]";
         out += ",\"view\":[" + jsonNumber(s.view.xmin) + "," + jsonNumber(s.view.xmax) + "," + jsonNumber(s.view.ymin) +

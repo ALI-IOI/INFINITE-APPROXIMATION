@@ -293,7 +293,7 @@ OrthoCheck CurveGenerator::checkOrthogonality(const std::vector<Polyline>& fam, 
                 bucket[b * G + a].push_back(s);
     }
 
-    struct Hit { double cosv, grad, fc; bool coarse; };
+    struct Hit { double cosv, grad, fc; bool coarse; double x = 0, y = 0, ux = 0, uy = 0; };
     std::vector<Hit> hits;
     std::vector<int> stamp(famSegs.size(), -1);
     int trajSegId = 0;
@@ -334,7 +334,7 @@ OrthoCheck CurveGenerator::checkOrthogonality(const std::vector<Polyline>& fam, 
                         if (cosv > 0.04) std::fprintf(stderr, "cos=%.3f at (%.3f,%.3f) c=%g bend %.3f fc=%g\n", cosv, px, py, f.c, b1, fa_.Fc->eval(Env(px, py, f.c)));
 #endif
                         hits.push_back({cosv, std::hypot(fa_.Fx->eval(env), fa_.Fy->eval(env)), std::fabs(fa_.Fc->eval(env)),
-                                        b1 > 0.15 || b2 > 0.15});
+                                        b1 > 0.15 || b2 > 0.15, px, py, tx2, ty2});
                     }
         }
 
@@ -358,6 +358,7 @@ OrthoCheck CurveGenerator::checkOrthogonality(const std::vector<Polyline>& fam, 
     const double medGrad = median(&Hit::grad);
     const double medFc = fcSample.empty() ? median(&Hit::fc) : fcSample[fcSample.size() / 2];
     double sum = 0;
+    std::vector<const Hit*> good;
     for (const Hit& h : hits) {
         // Skipped crossings:
         //  (1) the gradient (Fx, Fy) almost vanishes: the slope is undefined there;
@@ -370,8 +371,19 @@ OrthoCheck CurveGenerator::checkOrthogonality(const std::vector<Polyline>& fam, 
         ++r.crossings;
         sum += h.cosv;
         r.maxAbsCos = std::max(r.maxAbsCos, h.cosv);
+        good.push_back(&h);
     }
     if (r.crossings > 0) r.meanAbsCos = sum / r.crossings;
+
+    // Right-angle marks at every tested crossing.  (A crossing found twice,
+    // where it falls on the end of a segment, gets one mark.)
+    double same = 0.002 * std::min(view_.width(), view_.height());
+    for (const Hit* h : good) {
+        bool repeat = false;
+        for (size_t k = 0; k < r.marks.size() && !repeat; k += 4)
+            repeat = std::hypot(r.marks[k] - h->x, r.marks[k + 1] - h->y) < same;
+        if (!repeat) r.marks.insert(r.marks.end(), {h->x, h->y, h->ux, h->uy});
+    }
     return r;
 }
 
