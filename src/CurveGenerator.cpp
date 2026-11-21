@@ -259,13 +259,36 @@ std::vector<std::array<double, 4>> CurveGenerator::symmetries() const {
 //  Numerical check: tangents perpendicular at every crossing?
 // ----------------------------------------------------------------------
 OrthoCheck CurveGenerator::checkOrthogonality(const std::vector<Polyline>& fam, const std::vector<Polyline>& traj) const {
-    // Tangent of a polyline at segment i: direction from point i-1 to point i+2
-    // (a central difference, more accurate than the segment alone).
+    // Tangent of a polyline at the point a fraction t along segment i.
+    // At each end of the segment the tangent is a central difference that allows for
+    // unequal neighbouring segments (lengths h1, h2):  d1·h2/h1 + d2·h1/h2,  which is
+    // second-order accurate even where one step is short (e.g. where a loop closes).
+    // The two end tangents are blended by t, so the tangent is taken at the crossing
+    // itself and not at the middle of the segment; on a tightly curved trajectory (a
+    // small circle) the middle can be off by half the segment's turn.
     // 'bend' = angle between the neighbouring segments; a large bend means the
     // polyline is too coarse there to give a reliable tangent.
-    auto tangent = [](const Polyline& p, size_t i, double& tx, double& ty, double& bend) {
-        size_t a = i > 0 ? i - 1 : i, b = std::min(i + 2, p.size() - 1);
-        tx = p.x(b) - p.x(a); ty = p.y(b) - p.y(a);
+    auto tangent = [](const Polyline& p, size_t i, double t, double& tx, double& ty, double& bend) {
+        const size_t n = p.size();
+        // a closed trajectory (an ellipse, a circle) ends on its first point: wrap round its seam
+        const bool closed = n > 3 && p.x(0) == p.x(n - 1) && p.y(0) == p.y(n - 1);
+        size_t a = i > 0 ? i - 1 : (closed ? n - 2 : i);
+        size_t b = i + 2 < n ? i + 2 : (closed ? i + 2 - (n - 1) : n - 1);
+        // unit tangent at vertex j, with neighbours pj (before) and nj (after)
+        auto at = [&](size_t pj, size_t j, size_t nj, double& ox, double& oy) {
+            double d1x = p.x(j) - p.x(pj), d1y = p.y(j) - p.y(pj), d2x = p.x(nj) - p.x(j), d2y = p.y(nj) - p.y(j);
+            double h1 = std::hypot(d1x, d1y), h2 = std::hypot(d2x, d2y);
+            if (h1 > 0 && h2 > 0) { ox = d1x * h2 / h1 + d2x * h1 / h2; oy = d1y * h2 / h1 + d2y * h1 / h2; }
+            else if (h2 > 0) { ox = d2x; oy = d2y; }
+            else { ox = d1x; oy = d1y; }
+            double m = std::hypot(ox, oy);
+            if (m > 0) { ox /= m; oy /= m; }
+        };
+        double t0x, t0y, t1x, t1y;
+        at(a, i, i + 1, t0x, t0y);   // tangent at point i
+        at(i, i + 1, b, t1x, t1y);   // tangent at point i+1
+        tx = (1 - t) * t0x + t * t1x; ty = (1 - t) * t0y + t * t1y;
+        if (tx == 0 && ty == 0) { tx = p.x(b) - p.x(a); ty = p.y(b) - p.y(a); }
         double ux = p.x(i + 1) - p.x(a), uy = p.y(i + 1) - p.y(a), vx = p.x(b) - p.x(i), vy = p.y(b) - p.y(i);
         double nu = std::hypot(ux, uy), nv = std::hypot(vx, vy);
         bend = (nu > 0 && nv > 0) ? std::acos(std::clamp((ux * vx + uy * vy) / (nu * nv), -1.0, 1.0)) : 0;
@@ -319,7 +342,7 @@ OrthoCheck CurveGenerator::checkOrthogonality(const std::vector<Polyline>& fam, 
                         // Family tangent: exact, from the family's own equation with its own c,
                         //   tangent = (Fy, -Fx)  because  Fx dx + Fy dy = 0 along the curve.
                         double tx1, ty1, b1, b2 = 0, tx2, ty2;
-                        tangent(p, i, tx1, ty1, b1);
+                        tangent(p, i, t, tx1, ty1, b1);
                         double px = ax + t * rx, py = ay + t * ry;
                         if (!p.cs.empty()) {
                             // Non-linear family: several members may pass through one point.

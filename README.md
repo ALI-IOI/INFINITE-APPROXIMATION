@@ -90,17 +90,17 @@ site is live at `https://<username>.github.io/<repository>/`.
 
 | Family | Closed form found by the program | Crossings checked | Largest abs(cos θ) |
 |---|---|---|---|
-| y = c x² | x² + 2y² = k | 44 | 0.025 |
+| y = c x² | x² + 2y² = k | 42 | 0.000077 |
 | x² + y² = c | ln‖y‖ − ln‖x‖ = K ⇒ y = kx | 143 | ≈ 0 (1e-15) |
-| xy = c | x² − y² = k | 84 | 0.0062 |
-| y = c eˣ | 2x + y² = k (same as y² = k − 2x) | 71 | 0.016 |
-| y = cx | x² + y² = k | 29 | 0.016 |
-| y² = 4cx | 2x² + y² = k | 32 | 0.022 |
+| xy = c | x² − y² = k | 84 | 0.00011 |
+| y = c eˣ | 2x + y² = k (same as y² = k − 2x) | 71 | 0.00015 |
+| y = cx | x² + y² = k | 28 | ≈ 0 (3e-9) |
+| y² = 4cx | 2x² + y² = k | 32 | 0.00031 |
 | (x − c)² + y² = 1 (c is non-linear) | none, RK4 only | 24 | 0.0068 |
 
 abs(cos θ) is computed at each crossing between the RK4 trajectory (tangent measured from its
-points) and the exact tangent of the family curve. 0 would mean exactly 90°; 0.025 means
-88.6°. The small error comes from the step size of the drawing, not from the formulas. The
+points, at the crossing itself) and the exact tangent of the family curve. 0 would mean exactly
+90°; 0.0068 means 89.6°. The small error comes from the step size of the drawing, not from the formulas. The
 check skips crossings at singular points. These are points where every curve of the family
 meets, such as the origin for y = c x², or points where the slope is undefined.
 

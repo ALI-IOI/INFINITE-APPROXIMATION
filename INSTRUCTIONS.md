@@ -14,7 +14,9 @@ A step-by-step guide. No coding needed for steps 1–4.
 
 ## 2. Enter a family of curves
 
-The form is on the right (on phones and tablets it is below the graph). Fill it from top to bottom:
+On a laptop the graph fills the left 70% of the screen and stays in place; the title, the form and the
+derivation steps are in the right 30%, which scrolls by itself. On phones and tablets the order is
+title, graph, form, steps. Fill the form from top to bottom:
 
 | Box | What to type | Example |
 |---|---|---|
@@ -31,14 +33,21 @@ Allowed in an equation: `x`, `y`, the parameter, numbers, `+ - * / ^ ( )`, `pi`,
 `sin cos tan exp ln sqrt abs asin acos atan sinh cosh tanh` (`log` means natural log).
 Symbols copied from Word or a PDF (−, ×, ², π) are understood too.
 
-Not sure? Click one of the **Examples** to fill the form.
+**Automatic values.** When you type a new equation and pause for about a second, the page works out
+whether it is Explicit or Implicit and which letter is the parameter, tries ten ranges of values with the
+C++ engine, keeps the one that draws the most curves, fills boxes 1, 3, 4 and 5 for you, and draws it. A
+short note under the button says what it chose. If you type your own letter or values, yours are kept.
+If the equation is wrong, the message appears under the button (no pop-up while you are still typing).
+
+Not sure? Click one of the **Examples**: it fills the form and draws the graph at once, without moving the page.
 
 ## 3. Press Simulate
 
 - If something is wrong, a box says **Invalid information: …** and tells you exactly what to fix
   (an empty box, a missing parameter, unbalanced brackets, an equation that is one curve and not a family, …).
-- If everything is right, a green line says **The information is valid**, and the curves are drawn as an animation:
-  the family first (green), then the orthogonal trajectories (orange).
+- If everything is right, a green line says **The information is valid**, and the curves are drawn as an animation,
+  one curve at a time: the family first (green), then the orthogonal trajectories (black in the bright theme,
+  silver in the dark theme). You can change both colours in box 8.
 
 ## 4. Read and explore the result
 

@@ -231,8 +231,13 @@ void RK4Tracer::traceOneWay(double x, double y, double c, double sign, std::vect
         cs.push_back(c);
         if (!bounds_.contains(x, y)) return;
         if (i > 20 && std::hypot(x - x0, y - y0) < 0.8 * h) {  // came back to the start: closed curve
-            out.push_back(x0); out.push_back(y0);
-            cs.push_back(cs.empty() ? c : cs.front());
+            // If this last step ran past the start point, end exactly on the start point instead
+            // (appending it after the overshoot would add a tiny backward kink to the loop).
+            const size_t m = out.size();
+            const double ax = out[m - 4], ay = out[m - 3];   // point before this step (i > 20, so it exists)
+            const double s = ((x0 - ax) * (x - ax) + (y0 - ay) * (y - ay)) / ((x - ax) * (x - ax) + (y - ay) * (y - ay));
+            if (s > 0 && s < 1) { out[m - 2] = x0; out[m - 1] = y0; cs.back() = cs.front(); }
+            else { out.push_back(x0); out.push_back(y0); cs.push_back(cs.front()); }
             closed = true;
             return;
         }
