@@ -105,7 +105,7 @@ check skips crossings at singular points. These are points where every curve of 
 meets, such as the origin for y = c x², or points where the slope is undefined.
 
 All 15 invalid-input tests show a clear message, for example:
-`Invalid information: Unbalanced brackets: '(' at position 6 is never closed.`
+`Invalid information: Unbalanced brackets: '(' at position 1 is never closed.` (the recorded case in `tests/test_output.txt`; the same message reports the position of any unclosed bracket)
 
 ## Limits (stated honestly)
 
