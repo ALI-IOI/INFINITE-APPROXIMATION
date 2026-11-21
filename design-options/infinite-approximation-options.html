@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Infinite Approximation Options</title>
+<meta name="description" content="100 options for INFINITE-APPROXIMATION: the 70/30 layout, automatic parameters for a new equation, and a green-and-silver serpent theme drawn from House Slytherin.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cinzel+Decorative:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IM+Fell+English:ital@0;1&family=Marcellus&family=Pirata+One&family=Playfair+Display:wght@600&family=Source+Sans+3:wght@400;600&family=Spectral:wght@300;500&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&family=Uncial+Antiqua&display=swap">
+<style>
+:root{
+  --bg:#07120d;--panel:#0d1c15;--panel-2:#12261c;--line:rgba(80,200,120,.2);--line-2:rgba(255,255,255,.08);
+  --fg:#e6ece8;--muted:#a3b3aa;--faint:#6f8278;--accent:#50c878;--silver:#c0c0c0;
+  --stage-bg:#081a12;--stage-ink:#e6ece8;--grid:rgba(192,192,192,.12);color-scheme:dark;
+}
+:root[data-theme="light"]{
+  --bg:#eef1ef;--panel:#ffffff;--panel-2:#f3f5f4;--line:rgba(26,71,42,.25);--line-2:rgba(10,30,20,.1);
+  --fg:#0f2318;--muted:#4b5e54;--faint:#86968d;--accent:#1a472a;--silver:#6e7672;
+  --stage-bg:#f1f3f2;--stage-ink:#0f2318;--grid:rgba(26,71,42,.12);color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 "IBM Plex Sans","Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:Cinzel,Georgia,serif;font-weight:700;margin:0;line-height:1.15;text-wrap:balance}
+
+/* ---------- chrome ---------- */
+.bar{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding:12px 24px;background:color-mix(in srgb,var(--bg) 88%,transparent);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-bottom:1px solid var(--line-2)}
+.bar .title{font:700 18px/1 Cinzel,serif;margin-right:auto;letter-spacing:.02em}
+.ctl{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted)}
+.seg{display:inline-flex;border:1px solid var(--line-2);border-radius:999px;padding:3px;gap:2px}
+.seg button{border:0;background:none;border-radius:999px;padding:6px 12px;min-height:34px;cursor:pointer;color:var(--muted);font-size:13px}
+.seg button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.dl{border:1px solid var(--accent);background:var(--accent);color:#07120d;border-radius:999px;padding:9px 16px;min-height:40px;cursor:pointer;font-weight:600;font-size:14px}
+:root[data-theme="light"] .dl{color:#fff}
+.dl:hover{filter:brightness(1.1)}
+.count{font:500 13px "IBM Plex Mono",monospace;color:var(--muted)}
+
+.layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:32px;max-width:1440px;margin:0 auto;padding:28px 24px 96px}
+.toc{position:sticky;top:84px;align-self:start;display:flex;flex-direction:column;gap:2px;font-size:14px}
+.toc a{text-decoration:none;color:var(--muted);padding:6px 10px;border-radius:8px;display:flex;justify-content:space-between;gap:8px}
+.toc a:hover{color:var(--fg);background:var(--panel)}
+.toc a b{font:500 12px "IBM Plex Mono",monospace;color:var(--faint)}
+
+.intro{max-width:78ch;margin-bottom:40px}
+.intro h1{font-size:clamp(34px,5vw,60px);margin-bottom:14px}
+.intro p{color:var(--muted);margin:0 0 10px}
+.intro ul{color:var(--muted);margin:6px 0 0;padding-left:20px}
+.study{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin:0 0 56px;max-width:1000px}
+.study h2{font-size:clamp(24px,3vw,32px);margin-bottom:6px}
+.study>p{color:var(--muted);margin:0 0 14px;max-width:75ch}
+.study table{width:100%;border-collapse:collapse;font-size:14px}
+.study th,.study td{text-align:left;vertical-align:top;padding:9px 10px;border-top:1px solid var(--line-2)}
+.study th{font-weight:600;color:var(--fg);width:22%}
+.study td{color:var(--muted)}
+.study td:last-child{color:var(--fg)}
+.study .src{font-size:12.5px;color:var(--faint);margin-top:12px}
+
+section.sec{margin:0 0 72px}
+.sec-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;margin-bottom:6px}
+.sec-head h2{font-size:clamp(26px,3.2vw,38px)}
+.sec-head .code{font:500 13px "IBM Plex Mono",monospace;color:var(--faint)}
+.part{font:500 12px "IBM Plex Mono",monospace;color:var(--accent);border:1px solid var(--line);border-radius:999px;padding:1px 9px}
+.sec-lede{color:var(--muted);max-width:78ch;margin:0 0 18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.grid.wide{grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}
+
+.card{background:var(--panel);border:1px solid var(--line-2);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.card.picked{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.card .meta{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card .row{display:flex;align-items:baseline;gap:8px}
+.card .id{font:500 12px "IBM Plex Mono",monospace;color:var(--faint)}
+.card .nm{font-weight:600;font-size:15px}
+.card .mine{margin-left:auto;font-size:11.5px;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:1px 8px;white-space:nowrap}
+.card .ds{color:var(--muted);font-size:13.5px;margin:0}
+.card .spec{font:12px/1.5 "IBM Plex Mono",monospace;color:var(--faint);word-break:break-word}
+.pick{margin-top:auto;display:flex;align-items:center;gap:8px;font-size:13.5px;cursor:pointer;padding-top:6px;min-height:32px}
+.pick input{width:18px;height:18px;accent-color:var(--accent)}
+.notes{margin-top:16px}
+.notes label{display:block;font-size:13.5px;color:var(--muted);margin-bottom:6px}
+.notes textarea{width:100%;min-height:64px;border-radius:10px;border:1px solid var(--line-2);background:var(--panel);padding:10px 12px;resize:vertical}
+.foot{color:var(--faint);font-size:13px;max-width:90ch}
+
+/* ---------- previews ---------- */
+.stage{position:relative;height:180px;overflow:hidden;background:var(--stage-bg);color:var(--stage-ink);display:flex;align-items:center;justify-content:center}
+.stage svg{display:block}
+
+/* layout wireframes */
+.wf{width:224px;height:140px;border:1.5px solid var(--silver);border-radius:8px;background:var(--panel-2);display:grid;gap:4px;padding:5px;position:relative;font:9px/1.2 "IBM Plex Mono",monospace;color:var(--muted)}
+.wf .hd{background:color-mix(in srgb,var(--silver) 30%,transparent);border-radius:3px}
+.wf .g{background:color-mix(in srgb,var(--accent) 28%,transparent);border:1px solid var(--accent);border-radius:3px;display:flex;align-items:center;justify-content:center;color:var(--fg);position:relative}
+.wf .r{border:1px dashed var(--silver);border-radius:3px;padding:3px;display:flex;flex-direction:column;gap:3px;overflow:hidden;position:relative}
+.wf .r i{display:block;height:5px;border-radius:2px;background:color-mix(in srgb,var(--silver) 45%,transparent)}
+.wf .r i.b{height:9px;background:var(--accent)}
+.wf .r i.s{height:14px;background:color-mix(in srgb,var(--silver) 22%,transparent)}
+.wf .arrow{position:absolute;right:2px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--accent)}
+.wf .tag{position:absolute;bottom:3px;left:50%;transform:translateX(-50%);font-size:8.5px;color:var(--fg);background:var(--panel);padding:0 4px;border-radius:3px;white-space:nowrap}
+
+/* auto-adjust flow */
+.flow{width:236px;font:11.5px/1.55 "IBM Plex Mono",monospace;color:var(--stage-ink)}
+.flow .eq{font:italic 16px/1.2 "STIX Two Text",serif;margin-bottom:6px}
+.flow .ln{display:flex;gap:6px;align-items:baseline}
+.flow .no{color:#d98c8c}.flow .ok{color:var(--accent)}.flow .dim{color:var(--faint)}
+.flow .chip{display:inline-block;border:1px solid var(--accent);color:var(--accent);border-radius:999px;padding:0 8px;margin:2px 3px 0 0}
+.flow .box{border:1px solid var(--line-2);border-radius:6px;padding:2px 7px;display:inline-block}
+
+/* colour swatches */
+.sw{height:96px;display:flex;align-items:flex-end;padding:10px 12px;font:500 13px "IBM Plex Mono",monospace;color:#fff}
+.ramp{display:flex;height:16px}.ramp i{flex:1}
+.metal{height:34px}
+.ondark{height:50px;display:flex;align-items:center;gap:12px;padding:0 12px;background:#0b1510;font:600 15px Cinzel,serif}
+.onlight{height:50px;display:flex;align-items:center;gap:12px;padding:0 12px;background:#eef1ef;font:600 15px Cinzel,serif}
+
+/* type pairs */
+.ty{padding:16px 16px 10px;height:180px;background:var(--stage-bg);color:var(--stage-ink);display:flex;flex-direction:column;gap:6px;overflow:hidden}
+.ty .h{font-size:24px;line-height:1.1}
+.ty .b{font-size:13px;color:var(--muted)}
+.ty .m{font:19px "STIX Two Text",serif}
+
+/* buttons */
+.sb{--g:#1a472a;--s:#c0c0c0;border:0;cursor:pointer;font:600 15px "IBM Plex Sans",sans-serif;padding:12px 30px;color:#fff;letter-spacing:.02em}
+.sb1{background:var(--g);border-radius:12px;box-shadow:inset 0 0 0 1px rgba(192,192,192,.55),0 10px 22px -10px #000}
+.sb2{background:linear-gradient(180deg,#e9ecec,#a9afb0 48%,#cfd4d4 52%,#8c9293);color:#0f2a1b;border-radius:10px;box-shadow:inset 0 1px 0 #fff,0 6px 16px -8px #000}
+.sb3{background:repeating-linear-gradient(0deg,#2b3330 0 1px,transparent 1px 3px),linear-gradient(#3a4440,#232a27);color:#cfd8d3;border-radius:6px;text-shadow:0 -1px 0 #000,0 1px 0 rgba(255,255,255,.12);box-shadow:inset 0 2px 4px rgba(0,0,0,.6)}
+.sb4{background:rgba(80,200,120,.16);color:var(--stage-ink);border:1px solid rgba(80,200,120,.6);border-radius:14px;box-shadow:0 0 22px rgba(80,200,120,.45),inset 0 1px 0 rgba(255,255,255,.2);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.sb5{background:transparent;color:var(--stage-ink);border:1.5px solid var(--s);border-radius:10px;transition:background .25s,color .25s}
+.sb5:hover{background:var(--s);color:#0f2a1b}
+.sb6{background:var(--g);clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px);box-shadow:none;outline:0}
+.sb7{background:radial-gradient(circle at 50% 0,rgba(255,255,255,.18) 0 30%,transparent 31%) 0 0/14px 10px,radial-gradient(circle at 50% 0,rgba(0,0,0,.25) 0 30%,transparent 31%) 7px 5px/14px 10px,#1f5e3a;border-radius:10px;box-shadow:inset 0 0 0 1px rgba(192,192,192,.5)}
+.sb8{background:var(--g);border-radius:999px;padding:12px 36px}
+.sb9{width:92px;height:92px;padding:0;border-radius:50%;background:radial-gradient(circle at 38% 35%,#3c8c5a,#1a472a 60%,#0e2a18);box-shadow:inset 0 0 0 4px rgba(192,192,192,.55),inset 0 0 0 7px #1a472a,inset 0 0 0 8px rgba(192,192,192,.4),0 8px 18px -6px #000;font:700 12px Cinzel,serif}
+.sb10{background:var(--g);border-radius:3em 3em 6px 6px;padding:16px 34px 11px;box-shadow:inset 0 0 0 1px rgba(192,192,192,.55)}
+
+/* emblems */
+.emb{display:flex;align-items:center;gap:18px}
+.emb .big{width:92px;height:92px}
+.emb .mini{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line-2);border-radius:12px;padding:6px 10px 6px 6px;font:600 11px/1.1 Cinzel,serif;color:var(--fg)}
+.emb .mini svg{width:30px;height:30px}
+
+/* motion */
+.mv path,.mv ellipse{vector-effect:non-scaling-stroke}
+.dr{stroke-dasharray:1;stroke-dashoffset:1}
+.m1f{animation:drawA 3.2s ease-in-out infinite}
+.m1o{animation:drawB 3.2s ease-in-out infinite}
+@keyframes drawA{0%{stroke-dashoffset:1}40%,92%{stroke-dashoffset:0}100%{stroke-dashoffset:0;opacity:0}}
+@keyframes drawB{0%,30%{stroke-dashoffset:1}80%,92%{stroke-dashoffset:0}100%{stroke-dashoffset:0;opacity:0}}
+.m2{stroke-dasharray:.06 .03;animation:slither 2.6s linear infinite}
+@keyframes slither{to{stroke-dashoffset:-.9}}
+.m3r{animation:ripple 2.4s ease-out infinite;transform-origin:center;transform-box:fill-box}
+@keyframes ripple{0%{r:.1;opacity:.9}100%{r:4.2;opacity:0}}
+.m4{animation:fade 3s ease-in-out infinite}
+@keyframes fade{0%{opacity:0}40%,85%{opacity:1}100%{opacity:0}}
+.m5{animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
+.m6{animation:ink 3s ease-out infinite}
+@keyframes ink{0%{stroke-width:0;opacity:0}30%{opacity:1}60%,100%{stroke-width:2.6px}}
+.m8bg{animation:flicker 2.8s steps(1) infinite}
+@keyframes flicker{0%,100%{opacity:.75}12%{opacity:.55}14%{opacity:.8}46%{opacity:.68}48%{opacity:.82}72%{opacity:.6}}
+.m10{animation:drawA 3.4s ease-in-out infinite}
+body.paused *{animation-play-state:paused!important}
+
+/* backgrounds */
+.bgx{position:absolute;inset:0}
+.bgx .lbl{position:absolute;left:12px;bottom:10px;font:600 13px Cinzel,serif;color:#dfe6e2;text-shadow:0 1px 3px #000}
+.b1{background:radial-gradient(120% 70% at 50% -10%,rgba(80,200,120,.38),transparent 60%),linear-gradient(#0b1f15,#040b07)}
+.b3{background:linear-gradient(90deg,rgba(0,0,0,.35) 1px,transparent 1px) 0 0/48px 24px,linear-gradient(rgba(0,0,0,.4) 1px,transparent 1px) 0 0/48px 24px,linear-gradient(90deg,rgba(0,0,0,.35) 1px,transparent 1px) 24px 12px/48px 24px,linear-gradient(#26302b,#171d1a)}
+.b4{background:radial-gradient(40px 14px at 20% 30%,rgba(140,230,180,.25),transparent),radial-gradient(60px 18px at 70% 60%,rgba(140,230,180,.2),transparent),radial-gradient(50px 12px at 40% 80%,rgba(140,230,180,.22),transparent),linear-gradient(#0c2a1e,#061510);background-size:160% 160%;animation:caust 6s ease-in-out infinite alternate}
+@keyframes caust{to{background-position:30% 40%,60% 20%,10% 70%,0 0}}
+.b5{background:radial-gradient(circle at 50% 100%,transparent 9px,rgba(192,192,192,.22) 10px,transparent 11px) 0 0/20px 12px,radial-gradient(circle at 50% 100%,transparent 9px,rgba(192,192,192,.22) 10px,transparent 11px) 10px 6px/20px 12px,linear-gradient(#123a24,#0a1f14)}
+.b6{background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.7),transparent 60%),linear-gradient(135deg,#e7ece9,#cfd8d3)}
+.b6 .lbl{color:#1a472a;text-shadow:none}
+.b7{background:#0b1510}
+.b8{background:radial-gradient(60px 50px at 25% 25%,rgba(120,220,150,.35),transparent 70%),radial-gradient(60px 50px at 75% 30%,rgba(120,220,150,.3),transparent 70%),linear-gradient(#0d1a14,#060d09)}
+.b8 i{position:absolute;top:0;width:1px;height:28px;background:#6f7d76}
+.b9{background:linear-gradient(#0a1d14,#0a1d14)}
+.b9::after{content:"";position:absolute;inset:-20%;background:radial-gradient(closest-side,rgba(200,215,208,.22),transparent) 0 60%/60% 40% repeat-x;animation:mist 9s linear infinite}
+@keyframes mist{to{transform:translateX(30%)}}
+.b10{background:radial-gradient(circle,rgba(192,192,192,.55) 1px,transparent 1.5px) 0 0/18px 18px,linear-gradient(#0e2419,#07130d)}
+</style>
+</head>
+<body>
+
+<div class="bar" role="toolbar" aria-label="Review controls">
+  <span class="title">Infinite Approximation options</span>
+  <span class="ctl">Previews <span class="seg" id="theme"><button data-v="dark" aria-pressed="true">Dark</button><button data-v="light" aria-pressed="false">Light</button></span></span>
+  <span class="ctl">Motion <span class="seg" id="motion"><button data-v="on" aria-pressed="true">Playing</button><button data-v="off" aria-pressed="false">Paused</button></span></span>
+  <span class="count" id="count">0 picked</span>
+  <button class="dl" id="download" type="button">Download my choices</button>
+</div>
+
+<div class="layout">
+  <nav class="toc" id="toc" aria-label="Sections"></nav>
+  <main>
+    <header class="intro">
+      <h1>Infinite Approximation options</h1>
+      <p>Your three requests, ten options each. Part 3, the theme, is split into eight topics because a theme is many separate choices, so there are ten topics and 100 options in total. Tick every option you like (more than one per topic is fine), add notes under each topic, then press <b>Download my choices</b> and send me the text file.</p>
+      <ul>
+        <li><b>Part 1, layout:</b> the graph fills 70% of a laptop screen and stays put; the right side scrolls.</li>
+        <li><b>Part 2, new equation:</b> when the equation is valid, the parameter values are set automatically so the graph shows something.</li>
+        <li><b>Part 3, theme:</b> green and silver, serpents and the lake, drawn from House Slytherin (analysis below).</li>
+        <li><b>My pick</b> marks my recommendation in each topic; ignore it freely.</li>
+        <li>Previews switch between dark and light with the bar at the top. Ticks and notes are remembered in this browser.</li>
+      </ul>
+    </header>
+
+    <section class="study" id="study">
+      <h2>House Slytherin, analysed for this site</h2>
+      <p>What the books establish about the house, and what each point becomes on the page. The site will not use the house's name, crest or any film artwork: Harry Potter is a trademark, and every drawing on this page is my own.</p>
+      <table>
+        <thead><tr><th>Trait</th><td><b>From the books</b></td><td><b>On the site</b></td></tr></thead>
+        <tbody>
+          <tr><th>Colours</th><td>Green and silver.</td><td>Deep green surfaces, silver lines and text accents; a brighter green only where the eye should go.</td></tr>
+          <tr><th>Animal</th><td>The serpent, after the founder Salazar Slytherin, a Parselmouth.</td><td>Trajectories already wind like snakes. The logo, a loading animation and the right-angle marks can carry a serpent motif.</td></tr>
+          <tr><th>Common room</th><td>A long, low stone room in the dungeons under the lake, lit by greenish lamps hanging on chains, with a greenish light from the water (<i>Chamber of Secrets</i>, ch. 12).</td><td>Dark mode becomes "under the lake": stone-dark background, green light from above, a soft ripple.</td></tr>
+          <tr><th>Values</th><td>The Sorting Hat names ambition and cunning; resourcefulness is also given.</td><td>Sharp, precise, no clutter: thin silver rules, exact numbers, and a tool that fixes your parameters for you (resourceful).</td></tr>
+          <tr><th>Character</th><td>Old, proud, formal.</td><td>A classical inscription face (Cinzel or similar) for headings; STIX Two stays for the maths, which it sets best.</td></tr>
+          <tr><th>Risk</th><td>Green on black can turn murky and hard to read.</td><td>Every green and silver below shows its contrast; text keeps 4.5:1 or more (WCAG AA).</td></tr>
+        </tbody>
+      </table>
+      <p class="src">Source: J. K. Rowling's novels (<i>Philosopher's Stone</i>, ch. 7, the Sorting Hat's song; <i>Chamber of Secrets</i>, ch. 12, the common room). I paraphrased the descriptions; nothing is quoted.</p>
+    </section>
+
+    <div id="sections"></div>
+    <p class="foot">Hex values marked <i>CSS named colour</i> are web standards; <i>commonly listed</i> means the hex usually given for that name; <i>proposed</i> means my own mix. Fonts: Google Fonts (SIL Open Font License). Contrast is the WCAG 2.2 formula.</p>
+  </main>
+</div>
+
+<script>
+"use strict";
+(function () {
+  /* ---------- colour helpers ---------- */
+  const hx = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+  const lum = h => { const c = hx(h).map(v => { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }); return .2126 * c[0] + .7152 * c[1] + .0722 * c[2]; };
+  const contrast = (a, b) => { const A = lum(a), B = lum(b); return ((Math.max(A, B) + .05) / (Math.min(A, B) + .05)).toFixed(1); };
+  const mixc = (a, b, t) => "#" + hx(a).map((v, i) => Math.round(v + (hx(b)[i] - v) * t).toString(16).padStart(2, "0")).join("");
+  const ramp = h => [.6, .3, 0, -.3, -.6].map(t => `<i style="background:${t > 0 ? mixc(h, "#ffffff", t) : mixc(h, "#000000", -t)}"></i>`).join("");
+
+  /* ---------- the two families used in every graph preview: y = c x^2 and x^2 + 2y^2 = k ---------- */
+  function famPaths() {
+    return [-2, -1, -.5, .5, 1, 2].map(c => {
+      const xm = Math.min(4, Math.sqrt(2.8 / Math.abs(c))); let d = "";
+      for (let i = 0; i <= 48; i++) { const x = -xm + 2 * xm * i / 48; d += (i ? "L" : "M") + x.toFixed(3) + " " + (-c * x * x).toFixed(3); }
+      return d;
+    });
+  }
+  function ortPaths() {
+    return [.5, 1.5, 3, 5.5, 9].map(k => {
+      const a = Math.sqrt(k), b = Math.sqrt(k / 2); let d = "";
+      for (let i = 0; i <= 64; i++) { const t = 2 * Math.PI * i / 64; d += (i ? "L" : "M") + (a * Math.cos(t)).toFixed(3) + " " + (b * Math.sin(t)).toFixed(3); }
+      return d + "Z";
+    });
+  }
+  const FAM = famPaths(), ORT = ortPaths();
+  function gridLines(col) {
+    let d = ""; for (let x = -4; x <= 4; x++) d += `M${x} -3V3`; for (let y = -3; y <= 3; y++) d += `M-4 ${y}H4`;
+    return `<path d="${d}" stroke="${col}" stroke-width="1" vector-effect="non-scaling-stroke" fill="none"/><path d="M-4 0H4M0 -3V3" stroke="${col}" stroke-width="1.6" vector-effect="non-scaling-stroke" fill="none"/>`;
+  }
+  function graph(o) {
+    const fam = FAM.map((d, i) => `<path d="${d}" pathLength="1" class="${o.fc || ""}" style="${o.fs ? o.fs(i) : ""}" stroke="${o.f}" stroke-width="${o.fw || 1.8}" fill="none" vector-effect="non-scaling-stroke" ${o.fd ? `stroke-dasharray="${o.fd}"` : ""}/>`).join("");
+    const ort = ORT.map((d, i) => `<path d="${d}" pathLength="1" class="${o.oc || ""}" style="${o.os ? o.os(i) : ""}" stroke="${o.o}" stroke-width="${o.ow || 2.6}" fill="none" vector-effect="non-scaling-stroke" ${o.glow ? 'filter="url(#gl)"' : ""}/>`).join("");
+    return `<svg class="mv" viewBox="-4 -3 8 6" width="260" height="180" preserveAspectRatio="xMidYMid slice" style="background:${o.bg || "var(--stage-bg)"}">
+      <defs><filter id="gl" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation=".06" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+      ${o.under || ""}${gridLines(o.grid || "var(--grid)")}${fam}${ort}${o.over || ""}</svg>`;
+  }
+
+  /* ---------- emblems (all original drawings) ---------- */
+  const G = "#1a472a", S = "#c0c0c0", L = "#50c878";
+  const EMB = [
+    `<rect width="32" height="32" rx="8" fill="${G}"/><circle cx="16" cy="16" r="8" fill="none" stroke="${S}" stroke-width="2.2"/><path d="M4 23C8 14 12 14 16 16S24 19 28 9" fill="none" stroke="${L}" stroke-width="2.4" stroke-linecap="round"/><circle cx="28" cy="9" r="1.9" fill="${L}"/>`,
+    `<rect width="32" height="32" rx="8" fill="${G}"/><path d="M16 5V27M5 16H27" stroke="${S}" stroke-width="1.2" opacity=".7"/><path d="M16 16h3v3" fill="none" stroke="${S}" stroke-width="1.2"/><path d="M22 8c-6-3-12 0-10 5s10 3 9 9-8 5-11 2" fill="none" stroke="${L}" stroke-width="2.6" stroke-linecap="round"/><circle cx="22.4" cy="8.2" r="2" fill="${L}"/>`,
+    `<rect width="32" height="32" rx="8" fill="${G}"/><circle cx="16" cy="16" r="9" fill="none" stroke="${S}" stroke-width="3" stroke-dasharray="50 6.5" transform="rotate(-60 16 16)" stroke-linecap="round"/><circle cx="20.5" cy="8.2" r="2.5" fill="${L}"/>`,
+    `<rect width="32" height="32" rx="8" fill="${G}"/><path d="M5 5Q16 30 27 5M5 27Q16 2 27 27" fill="none" stroke="${S}" stroke-width="1.6"/><ellipse cx="16" cy="16" rx="10" ry="5.5" fill="none" stroke="${L}" stroke-width="2.2"/>`,
+    `<path d="M16 2L28 6.5V15C28 22.5 22.5 27.5 16 30C9.5 27.5 4 22.5 4 15V6.5Z" fill="${G}" stroke="${S}" stroke-width="1.6"/><path d="M10 22c3-1 2-5 6-6s3-5 6-6" fill="none" stroke="${L}" stroke-width="2.4" stroke-linecap="round"/><circle cx="22" cy="10" r="1.8" fill="${L}"/>`,
+    `<rect width="32" height="32" rx="8" fill="${G}"/><path d="M5 25C10 25 10 16 15 16S20 8 24 8" fill="none" stroke="${S}" stroke-width="2.4" stroke-linecap="round"/><path d="M23 4L29 8L23 12Z" fill="${L}"/>`,
+    `<rect width="32" height="32" rx="8" fill="${G}"/><path d="M16 14a2 2 0 1 1-2 2a4 4 0 1 1 4 4a6 6 0 1 1-6-6a8 8 0 1 1 8 8" fill="none" stroke="${S}" stroke-width="2" stroke-linecap="round"/><circle cx="24" cy="22" r="1.9" fill="${L}"/>`,
+    `<rect width="32" height="32" rx="8" fill="${G}"/><path d="M8 8V24H24" fill="none" stroke="${S}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 19h5v5" fill="none" stroke="${S}" stroke-width="1.6"/><path d="M24 24c0-5 4-5 4-10s-4-6-4-9" fill="none" stroke="${L}" stroke-width="2.2" stroke-linecap="round"/>`,
+    `<rect width="32" height="32" rx="8" fill="${G}"/><text x="16" y="21" text-anchor="middle" font-family="Cinzel" font-weight="700" font-size="13" fill="${S}">IA</text><path d="M6 25c3-2 5 2 8 0s5-2 8 0 3 1 4 0" fill="none" stroke="${L}" stroke-width="1.8" stroke-linecap="round"/>`,
+    `<rect width="32" height="32" rx="8" fill="#0b1f15"/><circle cx="16" cy="11" r="5" fill="${S}"/><path d="M6 20c2-1.5 4 1.5 6 0s4-1.5 6 0 4 1.5 6 0M9 24c2-1.2 3 1.2 5 0s3-1.2 5 0 3 1.2 4 0" fill="none" stroke="${L}" stroke-width="1.6" stroke-linecap="round"/>`
+  ];
+  const embCard = svg => `<div class="emb"><svg class="big" viewBox="0 0 32 32" aria-hidden="true">${svg}</svg><div class="mini"><svg viewBox="0 0 32 32" aria-hidden="true">${svg}</svg>INFINITE-<br>APPROXIMATION</div></div>`;
+
+  /* ---------- layout wireframes ---------- */
+  const wfR = (n = 6) => Array.from({ length: n }, (_, i) => i === 3 ? '<i class="b"></i>' : i > 3 ? '<i class="s"></i>' : "<i></i>").join("");
+  const WF = [
+    `<div class="wf" style="grid-template-rows:12px 1fr;grid-template-columns:7fr 3fr"><div class="hd" style="grid-column:1/3"></div><div class="g">graph 70%<br>fixed</div><div class="r">${wfR()}<span class="arrow">⇕</span></div></div>`,
+    `<div class="wf" style="grid-template-rows:12px 1fr;grid-template-columns:7fr 3fr"><div class="hd" style="grid-column:1/3"></div><div class="g">graph</div><div class="r"><div style="display:flex;gap:2px"><i class="b" style="flex:1"></i><i style="flex:1;height:9px"></i><i style="flex:1;height:9px"></i></div>${wfR(5)}<span class="arrow">⇕</span></div><span class="tag">tabs: Inputs · Steps · About</span></div>`,
+    `<div class="wf" style="grid-template-rows:5px 1fr;grid-template-columns:7fr 3fr"><div class="hd" style="grid-column:1/3"></div><div class="g">taller graph</div><div class="r">${wfR()}<span class="arrow">⇕</span></div><span class="tag">header shrinks to a thin line</span></div>`,
+    `<div class="wf" style="grid-template-columns:7fr 3fr;padding:0;gap:0"><div class="g" style="border-radius:7px 0 0 7px">edge to edge</div><div class="r" style="border-style:none none none dashed;border-radius:0"><i class="hd" style="height:10px"></i>${wfR(5)}<span class="arrow">⇕</span></div></div>`,
+    `<div class="wf" style="grid-template-rows:12px 1fr;grid-template-columns:7fr 3fr"><div class="hd" style="grid-column:1/3"></div><div class="g" style="align-items:flex-start;padding-top:10px">graph<div style="position:absolute;left:4px;right:4px;bottom:4px;height:26px;border-radius:3px;background:var(--panel);border:1px solid var(--silver);font-size:8px;display:flex;align-items:center;justify-content:center">steps drawer ▴</div></div><div class="r">${wfR()}</div></div>`,
+    `<div class="wf" style="grid-template-rows:12px 1fr;grid-template-columns:7fr 3fr"><div class="hd" style="grid-column:1/3"></div><div class="g">graph</div><div class="r" style="padding:0;gap:0"><div style="background:color-mix(in srgb,var(--accent) 22%,transparent);padding:3px;display:flex;flex-direction:column;gap:3px"><i></i><i></i><i class="b"></i></div><div style="padding:3px;display:flex;flex-direction:column;gap:3px"><i class="s"></i><i class="s"></i></div><span class="arrow">⇕</span></div><span class="tag">inputs stay, steps scroll</span></div>`,
+    `<div class="wf" style="grid-template-rows:12px 1fr;grid-template-columns:7fr 6px 3fr;gap:2px"><div class="hd" style="grid-column:1/4"></div><div class="g">graph</div><div style="background:var(--accent);border-radius:3px;cursor:col-resize"></div><div class="r">${wfR()}</div><span class="tag">drag the bar: 55% to 80%</span></div>`,
+    `<div class="wf" style="grid-template-rows:12px 1fr;grid-template-columns:7fr 3fr"><div class="hd" style="grid-column:1/3"></div><div style="display:flex;align-items:center;justify-content:center"><div class="g" style="height:100%;aspect-ratio:1">square</div></div><div class="r">${wfR()}<span class="arrow">⇕</span></div></div>`,
+    `<div class="wf" style="grid-template-rows:12px 1fr;grid-template-columns:7fr 3fr"><div class="hd" style="grid-column:1/3"></div><div class="g">graph</div><div class="r"><i class="b"></i><i></i><i style="opacity:.4"></i><i class="b"></i><i style="opacity:.4"></i><i class="b"></i><span class="arrow">⇕</span></div><span class="tag">input groups fold open/closed</span></div>`,
+    `<div class="wf" style="grid-template-rows:12px 1fr;grid-template-columns:1fr"><div class="hd"></div><div class="g">graph 100%<div style="position:absolute;right:4px;top:4px;border:1px solid var(--fg);border-radius:3px;padding:0 3px">⇤ panel</div></div><span class="tag">focus button hides / shows the right side</span></div>`
+  ];
+
+  /* ---------- auto-adjust flows ---------- */
+  const FL = [
+    `<div class="flow"><div class="eq">x² + y² = c</div><div class="ln dim">pause typing 0.9 s</div><div class="ln"><span class="no">✗</span> c = −3 to 3 → 3 curves</div><div class="ln"><span class="ok">✓</span> c = 1 to 16 → 6 curves</div><div class="ln dim">tries 10 ranges, keeps the best, draws</div></div>`,
+    `<div class="flow"><div class="eq">x² + y² = c</div><div class="ln dim">typing… nothing happens</div><div class="ln"><span class="box">Simulate</span> pressed</div><div class="ln"><span class="ok">✓</span> c = 1 to 16 chosen, drawn</div></div>`,
+    `<div class="flow"><div class="eq">x² + y² = c</div><div class="ln"><span class="box">Enter</span> or leave the box</div><div class="ln"><span class="ok">✓</span> values set, graph redrawn</div><div class="ln dim">no surprise while typing</div></div>`,
+    `<div class="flow"><div class="eq">x² + y² = c</div><div class="ln dim">suggestions, you choose:</div><div><span class="chip">c = 1 to 16</span><span class="chip">c = 1, 4, 9</span><span class="chip">c = 0.5 to 4</span></div></div>`,
+    `<div class="flow"><div class="eq">y = c·ln(x − 6)</div><div class="ln"><span class="no">✗</span> view −5…5: nothing visible</div><div class="ln"><span class="ok">✓</span> view widened to −10…10</div><div class="ln dim">values and view both adjusted</div></div>`,
+    `<div class="flow"><div class="eq">y² = 4kx</div><div class="ln">type → <span class="ok">Implicit</span></div><div class="ln">parameter → <span class="ok">k</span></div><div class="ln">values → <span class="ok">−2 to 2</span></div><div class="ln dim">reads the letters you used</div></div>`,
+    `<div class="flow"><div class="eq">y = c eˣ</div><div class="ln"><span class="ok">✓</span> your c = −2 to 2 already works</div><div class="ln dim">→ left exactly as you typed</div><div class="ln dim">changes only values that fail</div></div>`,
+    `<div class="flow"><div class="eq">x² + y² = c</div><div class="ln">C++ samples where curves exist</div><div class="ln"><span class="ok">→</span> c must be &gt; 0, visible up to 25</div><div class="ln"><span class="ok">✓</span> c = 1 to 25, 6 curves</div><div class="ln dim">one engine call; needs a rebuild</div></div>`,
+    `<div class="flow"><div class="eq">x² + y² = c</div><div class="ln"><span class="box">c values 🔒 −3 to 3</span></div><div class="ln"><span class="box">view 🔓</span> → widened</div><div class="ln dim">locked boxes are never touched</div></div>`,
+    `<div class="flow"><div class="eq">x² + y² = c</div><div class="ln"><span class="ok">✓</span> drawn with c = 1 to 16</div><div class="ln"><span class="chip">Changed from −3 to 3 · Undo</span></div><div class="ln dim">always one click back</div></div>`
+  ];
+
+  /* ---------- sections ---------- */
+  const SECTIONS = [];
+  const it = (key, arr, pv) => arr.map((a, i) => ({ id: key + (i + 1), nm: a[0], ds: a[1], mine: a[2], spec: a[3] || "", pv: pv(a, i) }));
+
+  SECTIONS.push({ key: "L", part: "Part 1", title: "Layout: graph 70%, fixed on the left", grid: "",
+    lede: "On a laptop the graph fills 70% of the width and the full height left under the header, and never scrolls; only the right side moves. Below 1020 px wide (phones, tablets) everything still stacks: graph first, then inputs.",
+    items: it("L", [
+      ["One scrolling column", "Graph fixed at 70%. Inputs, the derivation steps and the footer all sit in the right 30% and scroll together.", 1, "grid 7fr / 3fr, height 100vh − header"],
+      ["Tabs on the right", "Right side has three tabs: Inputs, Steps, About. Each tab scrolls by itself, so you never scroll past the form to read the steps."],
+      ["Slim header", "Same as L1, but the header shrinks to a thin bar, so the graph gains about 50 px of height."],
+      ["Edge to edge", "No header and no margins: the graph touches the screen edges. The title moves to the top of the right column."],
+      ["Steps drawer on the graph", "Right side holds only the form. The derivation lives in a drawer that slides up over the bottom of the graph."],
+      ["Inputs pinned, steps scroll", "The top half of the right column (the form) stays put and the derivation scrolls under it. Best on tall screens."],
+      ["Draggable divider", "Starts at 70/30; drag the bar to anything from 55/45 to 80/20. The browser remembers your width."],
+      ["Square graph, centred", "Keeps today's square graph, sized to the screen height and centred in the 70% area. Equal x and y range."],
+      ["Folding input groups", "Like L1, but the form's groups (equation, values, view, colours) fold open and closed to cut scrolling."],
+      ["Focus button", "Like L1, plus a button that hides the right side for a 100% graph, and brings it back."]
+    ], (a, i) => `<div class="stage">${WF[i]}</div>`) });
+
+  SECTIONS.push({ key: "A", part: "Part 2", title: "New equation: automatic parameters", grid: "",
+    lede: "When a new equation is valid, the page picks parameter values that actually draw curves. The C++ engine judges every attempt; the page only keeps the one that shows the most curves and crossings. An invalid equation still shows the usual “Invalid information” message.",
+    items: it("A", [
+      ["Live, after a pause", "Stop typing for 0.9 s: the engine tries 10 value ranges, keeps the best and draws it. Typing errors show quietly under the box, with no pop-up.", 1, "10 tries × ~20–150 ms each"],
+      ["Only on Simulate", "Nothing happens while you type. Pressing Simulate first fixes the values, then draws."],
+      ["On Enter or leaving the box", "Adjusts when you press Enter or click away from the equation box."],
+      ["Suggest, don't change", "Shows clickable chips with value ranges that work; your boxes stay as you typed them until you click one."],
+      ["Values and view", "If no value range works in your view, it also widens the view (−10 to 10) before giving up."],
+      ["Also guesses type and letter", "Reads the equation: y = … alone is Explicit, otherwise Implicit; a single unknown letter such as k becomes the parameter.", 1],
+      ["Keep what already works", "If your current values already draw curves, nothing changes; only failing values are replaced."],
+      ["Search inside C++", "A new C++ function samples where the family exists (for example c > 0 for x² + y² = c) and returns a range in one call. Fastest and most exact, but needs the Emscripten rebuild."],
+      ["Lock boxes", "A small lock beside each box. Locked boxes are never changed automatically."],
+      ["Undo chip", "After an automatic change, a note says what changed, with an Undo button.", 1]
+    ], (a, i) => `<div class="stage">${FL[i]}</div>`) });
+
+  SECTIONS.push({ key: "E", part: "Part 3", title: "Theme: greens", grid: "",
+    lede: "The house green. Each card shows the colour, a five-step ramp, silver lettering on it, and its contrast on the near-black background and on white (4.5 or more is readable for small text).",
+    items: [
+      ["Emerald", "#50C878", "Commonly listed hex. Bright jewel green; best for curves and highlights on dark."],
+      ["Dark green", "#006400", "CSS named colour. Pure, saturated, slightly loud."],
+      ["Forest green", "#228B22", "CSS named colour. Warmer, more yellow."],
+      ["Sea green", "#2E8B57", "CSS named colour. Blue-leaning, like water; fits the lake."],
+      ["Dark slate grey", "#2F4F4F", "CSS named colour. Green-grey stone; good for panels."],
+      ["Lake light", "#1F5E4A", "Proposed. The greenish light through the lake water, for glows and buttons."],
+      ["Deep serpent", "#1A472A", "Proposed. Dark, serious bottle green with silver on top; the main brand colour.", 1],
+      ["Dungeon moss", "#0E2A1E", "Proposed. Near-black green for the dark background."],
+      ["Malachite", "#0B6E4F", "Proposed, after the copper-green mineral ground for pigment since antiquity. Rich, slightly blue."],
+      ["Viridian", "#40826D", "Commonly listed hex for viridian, the 19th-century chromium green pigment. Calm, cool."]
+    ].map(([nm, hex, ds, mine], i) => ({ id: "E" + (i + 1), nm, ds, mine, spec: `${hex}  contrast on #07120D ${contrast(hex, "#07120D")}:1, on white ${contrast(hex, "#FFFFFF")}:1`,
+      pv: `<div class="sw" style="background:${hex};color:${lum(hex) > .3 ? "#07120d" : "#fff"}">${hex}</div><div class="ramp">${ramp(hex)}</div><div class="ondark" style="color:${hex}">Serpent<span style="color:#c0c0c0;font-size:12px">on the lake floor</span></div>` })) });
+
+  SECTIONS.push({ key: "S", part: "Part 3", title: "Theme: silvers", grid: "",
+    lede: "The second colour: rules, text accents, right-angle marks and the logo ring. Each card shows the flat colour, a ramp, a metallic band built from it, and silver lettering on deep green.",
+    items: [
+      ["Silver", "#C0C0C0", "CSS named colour. The plain, honest silver.", 1],
+      ["Dark grey", "#A9A9A9", "CSS named colour. Softer; good for secondary text on dark."],
+      ["Light slate grey", "#778899", "CSS named colour. Blue-grey, cold."],
+      ["Slate grey", "#708090", "CSS named colour. Darker; for silver on light backgrounds."],
+      ["Gainsboro", "#DCDCDC", "CSS named colour. Almost white; bright highlights only."],
+      ["Pewter", "#8A9597", "Proposed. Dull, old metal; quiet borders."],
+      ["Quicksilver", "#A6A9AD", "Proposed, after mercury. Liquid and cool."],
+      ["Tarnished silver", "#6E7672", "Proposed. Green-tinged old silver; matches the greens best on light mode."],
+      ["Moonlit lake", "#B9C6C1", "Proposed. Silver with a touch of green, as if lit through water."],
+      ["Gunmetal", "#2A3439", "Commonly listed hex. Dark metal for panels in dark mode, not for text."]
+    ].map(([nm, hex, ds, mine], i) => ({ id: "S" + (i + 1), nm, ds, mine, spec: `${hex}  contrast on #1A472A ${contrast(hex, "#1A472A")}:1, on #07120D ${contrast(hex, "#07120D")}:1, on white ${contrast(hex, "#FFFFFF")}:1`,
+      pv: `<div class="sw" style="background:${hex};color:${lum(hex) > .3 ? "#07120d" : "#fff"}">${hex}</div><div class="ramp">${ramp(hex)}</div><div class="metal" style="background:linear-gradient(135deg,${mixc(hex, "#000000", .5)} 0%,${hex} 28%,${mixc(hex, "#ffffff", .7)} 46%,${hex} 62%,${mixc(hex, "#000000", .5)} 100%)"></div><div class="ondark" style="background:#1a472a;color:${hex}">Ambition<span style="font:13px 'STIX Two Text',serif">x² + 2y² = k</span></div>` })) });
+
+  SECTIONS.push({ key: "B", part: "Part 3", title: "Theme: page background", grid: "",
+    lede: "What sits behind the glass cards. Today it is a faint orthogonal net of ellipses and hyperbolas; these are the alternatives.",
+    items: it("B", [
+      ["Under the lake", "Near-black green, with green light falling from above like light through water."],
+      ["Silver orthogonal net", "Today's ellipse-and-hyperbola net, redrawn in silver on deep green. Keeps the maths in the background.", 1],
+      ["Stone blocks", "Faint dungeon masonry: offset stone courses."],
+      ["Water caustics", "Slow moving patches of light, like sun through the lake. Stops when motion is reduced."],
+      ["Serpent scales", "A fine overlapping scale pattern in silver."],
+      ["Silver parchment (light mode)", "Pale green-grey paper with a soft sheen, for the bright theme."],
+      ["Plain dark green", "No pattern at all. Calmest; the graph carries the page."],
+      ["Hanging lamps", "Pools of green lamplight hung on chains near the top edge."],
+      ["Lake mist", "A thin silver mist drifting slowly across."],
+      ["Silver points", "A dot grid in silver, like graph paper at night."]
+    ], (a, i) => {
+      if (i === 1) return `<div class="stage" style="background:#0b1f15"><svg viewBox="-4 -3 8 6" width="260" height="180" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%">${ORT.map(d => `<path d="${d}" stroke="rgba(192,192,192,.35)" fill="none" stroke-width="1" vector-effect="non-scaling-stroke"/>`).join("")}${[-60, -30, 0, 30, 60].map(t => `<path d="M0 0L${(6 * Math.cos(t * Math.PI / 180)).toFixed(2)} ${(6 * Math.sin(t * Math.PI / 180)).toFixed(2)}M0 0L${(-6 * Math.cos(t * Math.PI / 180)).toFixed(2)} ${(-6 * Math.sin(t * Math.PI / 180)).toFixed(2)}" stroke="rgba(80,200,120,.35)" stroke-width="1" vector-effect="non-scaling-stroke"/>`).join("")}</svg><div class="bgx"><span class="lbl">${a[0]}</span></div></div>`;
+      const extra = i === 7 ? `<i style="left:25%"></i><i style="left:75%"></i>` : "";
+      return `<div class="stage"><div class="bgx b${i + 1}">${extra}<span class="lbl">${a[0]}</span></div></div>`;
+    }) });
+
+  const TYPES = [
+    ["Cinzel + IBM Plex Sans", "Cinzel", "IBM Plex Sans", "Roman inscription capitals for titles; keeps today's clean body text.", 1],
+    ["Cormorant Garamond + Plex", "Cormorant Garamond", "IBM Plex Sans", "Elegant, high-contrast old-style serif; refined rather than stern."],
+    ["IM Fell English + Spectral", "IM Fell English", "Spectral", "Revived 17th-century type, slightly rough, like an old printed book."],
+    ["Uncial Antiqua + Plex", "Uncial Antiqua", "IBM Plex Sans", "Rounded medieval book hand. Very decorative; titles only."],
+    ["Marcellus + Plex", "Marcellus", "IBM Plex Sans", "Flared Roman letters, lighter than Cinzel and easier at small sizes."],
+    ["STIX Two Text throughout", "STIX Two Text", "IBM Plex Sans", "Today's headings. Scholarly, matches the maths exactly; the least themed."],
+    ["Cinzel Decorative logo only", "Cinzel Decorative", "IBM Plex Sans", "Swashed capitals for the site name only; every other heading stays in STIX Two."],
+    ["Playfair Display + Source Sans 3", "Playfair Display", "Source Sans 3", "Sharp, high-contrast display serif; a modern, editorial take."],
+    ["EB Garamond + Plex", "EB Garamond", "IBM Plex Sans", "Classic book Garamond; quiet and very readable."],
+    ["Pirata One + Plex", "Pirata One", "IBM Plex Sans", "Narrow blackletter. The darkest mood, but harder to read; title only."]
+  ];
+  SECTIONS.push({ key: "T", part: "Part 3", title: "Theme: type", grid: "",
+    lede: "Heading and body pairs. Equations always stay in STIX Two Text, which has proper maths italics, superscripts and symbols.",
+    items: TYPES.map((t, i) => ({ id: "T" + (i + 1), nm: t[0], ds: t[3], mine: t[4], spec: `headings ${t[1]} · body ${t[2]} · maths STIX Two Text`,
+      pv: `<div class="ty"><div class="h" style="font-family:'${t[1]}',serif">Infinite Approximation</div><div class="h" style="font-family:'${t[1]}',serif;font-size:17px">Family of curves</div><div class="b" style="font-family:'${t[2]}',sans-serif">Type a family of curves and see its orthogonal trajectories.</div><div class="m">y = c x<sup>2</sup> ⟂ x<sup>2</sup> + 2y<sup>2</sup> = k</div></div>` })) });
+
+  const CURVES = [
+    ["Silver family, emerald trajectories", "#c0c0c0", "#50c878", "The house colours split between the two families: silver curves, emerald trajectories.", 1],
+    ["Emerald family, silver trajectories", "#50c878", "#c0c0c0", "The reverse: green curves, silver trajectories."],
+    ["Emerald and white", "#50c878", "#f2f5f3", "Highest contrast on dark; white reads as moonlight."],
+    ["Silver and lawn green", "#a9a9a9", "#7cfc00", "Acid green trajectories (CSS lawngreen) jump out; very loud."],
+    ["Jade and pale silver", "#00a86b", "#dcdcdc", "Jade (commonly listed hex) with gainsboro: cool and soft."],
+    ["Pewter and mint", "#8a9597", "#98ff98", "Dull metal against pale mint (CSS palegreen-like)."],
+    ["Sea green and dashed silver", "#2e8b57", "#c0c0c0", "Trajectories dashed, so the two families differ even in black and white.", 0, "6 4"],
+    ["Bottle green and slate (light mode)", "#1a472a", "#708090", "For the bright theme: ink-dark green and slate grey on pale paper.", 0, "", "#eef1ef"],
+    ["Emerald and black ink (light mode)", "#0b6e4f", "#0f2318", "Bright theme with near-black trajectories, like ink on silver paper.", 0, "", "#e7ece9"],
+    ["Glowing emerald", "#c0c0c0", "#50c878", "Like G1, plus a soft glow around trajectories, like lamplight in water.", 0, "", "", 1]
+  ];
+  SECTIONS.push({ key: "C", part: "Part 3", title: "Theme: curve colours on the graph", grid: "",
+    lede: "The two families as they will draw: the parabolas y = c x² and their orthogonal ellipses x² + 2y² = k. Colours stay editable in the form; these are the defaults.",
+    items: CURVES.map((c, i) => ({ id: "C" + (i + 1), nm: c[0], ds: c[3], mine: c[4], spec: `family ${c[1].toUpperCase()} · trajectories ${c[2].toUpperCase()} · on #0B1F15 ${contrast(c[1], "#0B1F15")}:1 / ${contrast(c[2], "#0B1F15")}:1`,
+      pv: `<div class="stage">${graph({ f: c[1], o: c[2], fd: c[5] ? "" : "", bg: c[6] || "#0b1f15", grid: c[6] ? "rgba(26,71,42,.15)" : "rgba(192,192,192,.1)", glow: c[7], oc: "", os: () => c[5] ? "stroke-dasharray:.03 .02" : "" })}</div>` })) });
+
+  SECTIONS.push({ key: "M", part: "Part 3", title: "Theme: logo mark", grid: "",
+    lede: "Replaces the blue circle-and-line icon (header and browser tab). Each is my own drawing; none uses the house crest. Shown large and at header size.",
+    items: it("M", [
+      ["Sine serpent through the circle", "Today's circle kept; the straight line becomes a winding curve with a head.", 1],
+      ["S-coil on a right angle", "A coiled S over two perpendicular axes, with the right-angle mark at the centre."],
+      ["Ouroboros", "The ancient tail-eating serpent as a closed curve, like a closed trajectory."],
+      ["The maths itself", "Two parabolas and the ellipse that crosses them at right angles."],
+      ["Shield and serpent", "A plain heater shield, silver-edged, with a winding curve."],
+      ["Arrow-headed trajectory", "A silver trajectory ending in a green arrow-head, like a snake's head."],
+      ["Coiled spiral", "A silver spiral, the serpent coiled."],
+      ["Right angle with a tail", "The ⟂ mark on its own, its end turning into a serpent's tail."],
+      ["IA monogram", "The letters IA in Cinzel with a wave beneath."],
+      ["Moon on the lake", "A silver moon over rippling green water."]
+    ], (a, i) => `<div class="stage">${embCard(EMB[i])}</div>`) });
+
+  SECTIONS.push({ key: "U", part: "Part 3", title: "Theme: Simulate button", grid: "",
+    lede: "The one main action. Hover each to see its state.",
+    items: it("U", [
+      ["Bottle green, silver hairline", "Solid deep green with a fine silver edge. Calm and clear.", 1],
+      ["Polished silver", "A metallic silver bar with green lettering."],
+      ["Engraved stone", "Dark stone with the label cut in; dungeon feel."],
+      ["Lake-glow glass", "Frosted glass with a green glow, matching today's glass cards."],
+      ["Silver outline", "Outline only; fills with silver on hover."],
+      ["Chamfered plate", "Two corners cut at 45°, like a forged plaque."],
+      ["Scale texture", "Green with a fine serpent-scale pattern."],
+      ["Pill", "Fully rounded. Modern; the least themed."],
+      ["Green seal", "A round seal with silver rings. Strong, but takes more room."],
+      ["Arched niche", "Rounded top, square bottom, like a dungeon alcove."]
+    ], (a, i) => `<div class="stage"><button type="button" class="sb sb${i + 1}">Simulate</button></div>`) });
+
+  SECTIONS.push({ key: "X", part: "Part 3", title: "Theme: motion", grid: "",
+    lede: "How the curves appear after Simulate. Everything falls back to a short fade when the visitor asks for reduced motion.",
+    items: it("X", [
+      ["Draw in order (today)", "Family draws first, then trajectories, over 2.2 s."],
+      ["Slither", "Trajectories draw as moving dashes, like a snake gliding along its path."],
+      ["Ripple from the centre", "A ring spreads like a stone dropped in the lake, then the curves appear."],
+      ["Fade in", "A simple fade. The quietest option."],
+      ["Pulsing right angles", "After drawing, the right-angle marks pulse softly once or twice."],
+      ["Ink spreading", "Lines grow from hairline to full width, like ink soaking into paper."],
+      ["Serpent head", "A small green head runs ahead along each trajectory as it draws.", 1],
+      ["Lamp flicker", "The background lamplight flickers faintly while the graph is drawn."],
+      ["None", "Curves appear at once."],
+      ["One curve at a time", "Each curve draws in turn, staggered."]
+    ], (a, i) => {
+      const o = { f: "#c0c0c0", o: "#50c878", bg: "#0b1f15", grid: "rgba(192,192,192,.1)" };
+      if (i === 0) { o.fc = "dr m1f"; o.oc = "dr m1o"; }
+      if (i === 1) { o.oc = "m2"; }
+      if (i === 2) { o.over = `<circle cx="0" cy="0" r=".1" fill="none" stroke="#50c878" stroke-width="2" vector-effect="non-scaling-stroke" class="m3r"/>`; o.oc = "m4"; }
+      if (i === 3) { o.fc = "m4"; o.oc = "m4"; }
+      if (i === 4) { o.over = [[1, .5], [-1, .5], [1.6, -.7], [-1.6, -.7]].map(p => `<rect x="${p[0] - .09}" y="${p[1] - .09}" width=".18" height=".18" fill="none" stroke="#c0c0c0" stroke-width="1.6" vector-effect="non-scaling-stroke" class="m5"/>`).join(""); }
+      if (i === 5) { o.fc = "m6"; o.oc = "m6"; }
+      if (i === 6) { o.oc = "dr m1f"; o.over = ORT.slice(1, 4).map((d, k) => `<circle r=".11" fill="#9ff0bf"><animateMotion dur="3.2s" repeatCount="indefinite" path="${d}" begin="${k * .2}s"/></circle>`).join(""); }
+      if (i === 7) { o.under = `<rect x="-4" y="-3" width="8" height="6" fill="url(#lamp)" class="m8bg"/><defs><radialGradient id="lamp" cx=".5" cy="0" r=".9"><stop offset="0" stop-color="rgba(120,220,150,.45)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/></radialGradient></defs>`; o.oc = "dr m1f"; }
+      if (i === 9) { o.fc = "dr m10"; o.fs = k => `animation-delay:${k * .25}s`; o.oc = "dr m10"; o.os = k => `animation-delay:${1.5 + k * .25}s`; }
+      return `<div class="stage">${graph(o)}</div>`;
+    }) });
+
+  /* ---------- render ---------- */
+  let picks = new Set(), notes = {};
+  try { const s = JSON.parse(localStorage.getItem("ia-options") || "{}"); picks = new Set(s.picks || []); notes = s.notes || {}; } catch (e) {}
+  function save() { try { localStorage.setItem("ia-options", JSON.stringify({ picks: [...picks], notes })); } catch (e) {} }
+
+  const host = document.getElementById("sections"), toc = document.getElementById("toc");
+  const sa = document.createElement("a"); sa.href = "#study"; sa.innerHTML = "House analysis <b>H</b>"; toc.appendChild(sa);
+  SECTIONS.forEach(sec => {
+    const el = document.createElement("section"); el.className = "sec"; el.id = "sec-" + sec.key;
+    el.innerHTML = `<div class="sec-head"><span class="part">${sec.part}</span><h2>${sec.title}</h2><span class="code">${sec.key}1–${sec.key}10</span></div><p class="sec-lede">${sec.lede}</p>`
+      + `<div class="grid ${sec.grid || ""}">${sec.items.map(o => `<article class="card${picks.has(o.id) ? " picked" : ""}" data-id="${o.id}"><div class="pv">${o.pv}</div><div class="meta"><div class="row"><span class="id">${o.id}</span><span class="nm">${o.nm}</span>${o.mine ? '<span class="mine">My pick</span>' : ""}</div><p class="ds">${o.ds}</p>${o.spec ? `<div class="spec">${o.spec}</div>` : ""}<label class="pick"><input type="checkbox" value="${o.id}"${picks.has(o.id) ? " checked" : ""}> I like this</label></div></article>`).join("")}</div>`
+      + `<div class="notes"><label for="n-${sec.key}">Notes on ${sec.title.toLowerCase()}</label><textarea id="n-${sec.key}" data-key="${sec.key}" placeholder="Anything to change, combine or avoid"></textarea></div>`;
+    host.appendChild(el);
+    el.querySelector("textarea").value = notes[sec.key] || "";
+    const a = document.createElement("a"); a.href = "#" + el.id; const lb = sec.title.replace(/^Theme: /, "").split(":")[0]; a.innerHTML = `${lb.charAt(0).toUpperCase() + lb.slice(1)} <b>${sec.key}</b>`; toc.appendChild(a);
+  });
+
+  function updateCount() { document.getElementById("count").textContent = picks.size + " picked"; }
+  updateCount();
+  host.addEventListener("change", e => {
+    const t = e.target; if (!t.matches(".pick input")) return;
+    t.checked ? picks.add(t.value) : picks.delete(t.value);
+    t.closest(".card").classList.toggle("picked", t.checked);
+    updateCount(); save();
+  });
+  host.addEventListener("input", e => { const t = e.target; if (t.matches("textarea")) { notes[t.dataset.key] = t.value; save(); } });
+
+  /* ---------- controls ---------- */
+  function seg(id, fn) {
+    const g = document.getElementById(id);
+    g.addEventListener("click", e => {
+      const b = e.target.closest("button"); if (!b) return;
+      g.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+      fn(b.dataset.v);
+    });
+  }
+  seg("theme", v => document.documentElement.setAttribute("data-theme", v));
+  seg("motion", v => {
+    document.body.classList.toggle("paused", v === "off");
+    document.querySelectorAll("svg").forEach(s => { if (s.pauseAnimations) v === "off" ? s.pauseAnimations() : s.unpauseAnimations(); });
+  });
+  if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) document.querySelector('#motion button[data-v="off"]').click();
+
+  document.getElementById("download").addEventListener("click", () => {
+    const lines = ["INFINITE-APPROXIMATION choices", "Saved " + new Date().toLocaleString(), ""];
+    SECTIONS.forEach(sec => {
+      const chosen = sec.items.filter(o => picks.has(o.id));
+      lines.push(sec.part + " - " + sec.title);
+      if (chosen.length) chosen.forEach(o => lines.push(`  ${o.id}  ${o.nm}${o.spec ? "  (" + o.spec + ")" : ""}`));
+      else lines.push("  (nothing picked)");
+      if ((notes[sec.key] || "").trim()) lines.push("  Notes: " + notes[sec.key].trim().replace(/\n/g, "\n         "));
+      lines.push("");
+    });
+    const blob = new Blob([lines.join("\r\n")], { type: "text/plain;charset=utf-8" });
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "infinite-approximation-choices.txt";
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  });
+})();
+</script>
+</body>
+</html>
